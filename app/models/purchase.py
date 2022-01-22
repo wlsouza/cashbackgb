@@ -24,5 +24,5 @@ class Purchase(Base):
         DateTime, index=False, nullable=False, default=datetime.utcnow(), onupdate=datetime.utcnow()
     )
 
-    status = relationship("PurchaseStatus", backref="purchases")
+    status = relationship("PurchaseStatus", back_populates="purchases")
     user = relationship("User", back_populates="purchases")

@@ -33,6 +33,14 @@ class CrudUser:
         )
         return result.scalar()
 
+    async def get_by_cpf(
+        self, db:AsyncSession, cpf:str
+    ) -> Optional[models.User]:
+        result = await db.execute(
+            select(models.User).where(models.User.cpf == cpf)
+        )
+        return result.scalar()
+
     async def create(
         self,
         db:AsyncSession,
@@ -43,7 +51,7 @@ class CrudUser:
         else:
             user_data = user_in.dict()
         if user_data.get("password"):
-            status_id = (user_data.pop("password"))
+            hashed_password = (user_data.pop("password"))
             user_data["hashed_password"] = hashed_password
         db_user = models.User(**user_data)
         db.add(db_user)

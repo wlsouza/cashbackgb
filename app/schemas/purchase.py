@@ -25,8 +25,6 @@ class PurchaseCreate(PurchaseBase):
     cpf: str
 
 
-
-
 # Properties to receive via API on update -- PATCH (allows not filling all fields)
 class PurchaseUpdatePATCH(PurchaseBase):
     code: Optional[str] = None
@@ -51,6 +49,7 @@ class PurchaseUpdatePUT(PurchaseBase):
 # Properties shared by models stored in DB
 class PurchaseInDBBase(PurchaseBase):
     id: int
+    cashback_value: Decimal
 
     class Config:
         orm_mode = True
@@ -60,6 +59,7 @@ class PurchaseInDBBase(PurchaseBase):
 class Purchase(PurchaseInDBBase):
     status: statusEnum
     cpf: str
+    cashback_value: Decimal
 
 
 # Properties properties stored in DB

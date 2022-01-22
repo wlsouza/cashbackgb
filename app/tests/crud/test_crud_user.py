@@ -36,7 +36,7 @@ async def test_when_create_user_return_hashed_password(
 async def test_if_get_by_email_return_correct_user(db: AsyncSession) -> None:
     new_user = await crud.user.create(db=db, user_in=random_user_dict())
     returned_user = await crud.user.get_by_email(
-        db=db, email=user_dict["email"]
+        db=db, email=new_user.email
     )
     assert returned_user.id == new_user.id
 

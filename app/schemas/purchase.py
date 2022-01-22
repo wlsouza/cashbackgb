@@ -3,11 +3,8 @@ from datetime import date
 from decimal import Decimal
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel
 
-from validate_docbr import CPF
-
-cpf = CPF()
 
 class statusEnum(str, Enum):
     APPROVED = "APPROVED"

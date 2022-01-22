@@ -1,0 +1,1 @@
+from .purchasedomain import purchase

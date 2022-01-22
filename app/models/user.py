@@ -1,9 +1,9 @@
 from datetime import datetime
+
 from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.orm import relationship
 
 from app.database.base import Base
-
-# TODO: Think more about updated_on
 
 class User(Base):
 
@@ -20,3 +20,5 @@ class User(Base):
     time_updated = Column(
         DateTime, index=False, nullable=False, default=datetime.utcnow(), onupdate=datetime.utcnow()
     )
+
+    purchases = relationship("Purchase", back_populates="user")

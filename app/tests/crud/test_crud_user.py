@@ -34,20 +34,24 @@ async def test_when_create_user_return_hashed_password(
 
 @pytest.mark.asyncio
 async def test_if_get_by_email_return_correct_user(db: AsyncSession) -> None:
-    user_dict = random_user_dict()
-    await crud.user.create(db=db, user_in=user_dict)
+    new_user = await crud.user.create(db=db, user_in=random_user_dict())
     returned_user = await crud.user.get_by_email(
         db=db, email=user_dict["email"]
     )
-    assert returned_user.cpf == user_dict["cpf"]
+    assert returned_user.id == new_user.id
 
 
 @pytest.mark.asyncio
 async def test_if_get_by_id_return_correct_user(db: AsyncSession) -> None:
-    user_dict = random_user_dict()
-    new_user = await crud.user.create(db=db, user_in=user_dict)
+    new_user = await crud.user.create(db=db, user_in=random_user_dict())
     returned_user = await crud.user.get_by_id(db=db, id=new_user.id)
-    assert returned_user.cpf == new_user.cpf
+    assert returned_user.id == new_user.id
+
+@pytest.mark.asyncio
+async def test_if_get_by_cpf_return_correct_user(db: AsyncSession) -> None:
+    new_user = await crud.user.create(db=db, user_in=random_user_dict())
+    returned_user = await crud.user.get_by_cpf(db=db, cpf=new_user.cpf)
+    assert returned_user.id == new_user.id
 
 
 @pytest.mark.asyncio

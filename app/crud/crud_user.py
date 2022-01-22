@@ -1,4 +1,3 @@
-from lib2to3.pgen2.token import OP
 from typing import Union, Optional, List, Dict, Any
 
 from sqlalchemy import select
@@ -42,9 +41,9 @@ class CrudUser:
         if isinstance(user_in, dict):
             user_data = user_in.copy()
         else:
-            user_data = user_in.dict(exclude_unset = True)
+            user_data = user_in.dict()
         if user_data.get("password"):
-            hashed_password = get_password_hash(user_data.pop("password"))
+            status_id = (user_data.pop("password"))
             user_data["hashed_password"] = hashed_password
         db_user = models.User(**user_data)
         db.add(db_user)

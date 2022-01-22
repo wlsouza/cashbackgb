@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.core.config import settings
 
-engine = create_async_engine(settings.SQLALCHEMY_DB_URI, echo=True)
+engine = create_async_engine(settings.SQLALCHEMY_DB_URL, echo=True)
 async_session = sessionmaker(
     engine,
     expire_on_commit=False,

@@ -5,3 +5,4 @@ faker
 pytest
 pytest-asyncio
 pytest-cov
+aiosqlite

@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     AP1_V1_STR: str = "/api/v1"
 
     # DB configs
-    SQLALCHEMY_DB_URI: Optional[str] = None
+    SQLALCHEMY_DB_URL: Optional[str] = None
 
     class Config:
         env_file = ".env"

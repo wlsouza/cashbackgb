@@ -58,6 +58,7 @@ def upgrade():
         sa.Column("code", sa.String(), nullable=True),
         sa.Column("value", sa.Numeric(), nullable=False),
         sa.Column("date", sa.Date(), nullable=False),
+        sa.Column("cashback_value", sa.Numeric(), nullable=False),
         sa.Column("status_id", sa.Integer(), nullable=True),
         sa.Column("user_id", sa.Integer(), nullable=True),
         sa.Column("time_created", sa.DateTime(), nullable=False),
@@ -79,6 +80,12 @@ def upgrade():
     op.create_index(
         op.f("ix_purchase_value"), "purchase", ["value"], unique=True
     )
+    op.create_index(
+        op.f("ix_purchase_cashback_value"),
+        "purchase",
+        ["cashback_value"],
+        unique=False,
+    )
     # ### end Alembic commands ###
 
 
@@ -87,6 +94,7 @@ def downgrade():
     op.drop_index(op.f("ix_purchase_value"), table_name="purchase")
     op.drop_index(op.f("ix_purchase_id"), table_name="purchase")
     op.drop_index(op.f("ix_purchase_code"), table_name="purchase")
+    op.drop_index(op.f("ix_purchase_cashback_value"), table_name="purchase")
     op.drop_table("purchase")
     op.drop_index(op.f("ix_user_id"), table_name="user")
     op.drop_index(op.f("ix_user_full_name"), table_name="user")

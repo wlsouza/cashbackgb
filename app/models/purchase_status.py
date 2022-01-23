@@ -10,7 +10,8 @@ class PurchaseStatus(Base):
     __tablename__ = "purchase_status"
 
     id = Column(Integer, primary_key=True, index=True)
-    description = Column(String, index=True)
+    name = Column(String, index=True)
+    description = Column(String, index=False)
     time_created = Column(
         DateTime, index=False, nullable=False, default=datetime.utcnow()
     )

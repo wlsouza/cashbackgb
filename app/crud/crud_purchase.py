@@ -1,15 +1,14 @@
-from typing import Union, Optional, List, Dict, Any
+from typing import Any, Dict, List, Optional, Union
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import models, schemas, crud, domain
+from app import crud, domain, models, schemas
 
 
 class CrudPurchase:
-
     async def get_by_id(
-        self, db:AsyncSession, id: Union[int, str]
+        self, db: AsyncSession, id: Union[int, str]
     ) -> Optional[models.Purchase]:
         result = await db.execute(
             select(models.Purchase).where(models.Purchase.id == id)
@@ -17,7 +16,7 @@ class CrudPurchase:
         return result.scalar()
 
     async def get_multi(
-        self, db: AsyncSession, skip:int = 0, limit:int = 100
+        self, db: AsyncSession, skip: int = 0, limit: int = 100
     ) -> Optional[List[models.Purchase]]:
         result = await db.execute(
             select(models.Purchase).offset(skip).limit(limit)
@@ -25,7 +24,7 @@ class CrudPurchase:
         return result.scalars().all()
 
     async def get_multi_by_user_id(
-        self, db: AsyncSession, user_id:int, skip:int = 0, limit:int = 100
+        self, db: AsyncSession, user_id: int, skip: int = 0, limit: int = 100
     ) -> Optional[List[models.Purchase]]:
         result = await db.execute(
             select(models.Purchase)
@@ -37,8 +36,8 @@ class CrudPurchase:
 
     async def create(
         self,
-        db:AsyncSession,
-        purchase_in: Union[schemas.PurchaseCreate, Dict[str, Any]]
+        db: AsyncSession,
+        purchase_in: Union[schemas.PurchaseCreate, Dict[str, Any]],
     ) -> models.Purchase:
         if isinstance(purchase_in, dict):
             create_data = purchase_in.copy()
@@ -48,7 +47,7 @@ class CrudPurchase:
         # treats the dictionary to insert the user_id instead of the cpf.
         if create_data.get("cpf"):
             user = await crud.user.get_by_cpf(
-                db=db, cpf= create_data.pop("cpf")
+                db=db, cpf=create_data.pop("cpf")
             )
             create_data["user_id"] = user.id
 
@@ -57,14 +56,15 @@ class CrudPurchase:
             if create_data.get("status"):
                 # treats the dictionary to insert the status_id instead of the name.
                 status = await crud.purchase_status.get_by_name(
-                    db=db,
-                    name = create_data.pop("status")
+                    db=db, name=create_data.pop("status")
                 )
                 create_data["status_id"] = status_id
             else:
                 # get default domain status
-                status_id = await domain.purchase.get_default_purchase_status_id(
-                    db=db, purchase_user_id = create_data.get("user_id")
+                status_id = (
+                    await domain.purchase.get_default_purchase_status_id(
+                        db=db, purchase_user_id=create_data.get("user_id")
+                    )
                 )
                 create_data["status_id"] = status_id
 
@@ -73,7 +73,7 @@ class CrudPurchase:
             cashback_value = domain.purchase.calculate_cashback(
                 purchase_value=create_data.get("value")
             )
-            create_data["cashback_value"]= cashback_value
+            create_data["cashback_value"] = cashback_value
 
         db_purchase = models.Purchase(**create_data)
         db.add(db_purchase)
@@ -86,7 +86,9 @@ class CrudPurchase:
         db: AsyncSession,
         db_purchase: models.Purchase,
         purchase_in: Union[
-            schemas.PurchaseUpdatePUT, schemas.PurchaseUpdatePATCH, Dict[str, Any]
+            schemas.PurchaseUpdatePUT,
+            schemas.PurchaseUpdatePATCH,
+            Dict[str, Any],
         ],
     ) -> models.Purchase:
         if isinstance(purchase_in, dict):
@@ -99,15 +101,14 @@ class CrudPurchase:
         # treats the dictionary to insert the user_id instead of the cpf.
         if update_data.get("cpf"):
             user = await crud.user.get_by_cpf(
-                db=db, cpf= update_data.pop("cpf")
+                db=db, cpf=update_data.pop("cpf")
             )
             update_data["user_id"] = user.id
 
         # treats the dictionary to insert the status_id instead of the name.
         if update_data.get("status") and not update_data.get("status_id"):
             status = await crud.purchase_status.get_by_name(
-                db=db,
-                name = update_data.pop("status")
+                db=db, name=update_data.pop("status")
             )
             update_data["status_id"] = status.id
 
@@ -116,7 +117,7 @@ class CrudPurchase:
             cashback_value = domain.purchase.calculate_cashback(
                 purchase_value=update_data.get("value")
             )
-            update_data["cashback_value"]= cashback_value
+            update_data["cashback_value"] = cashback_value
 
         for field, value in update_data.items():
             if hasattr(db_purchase, field):

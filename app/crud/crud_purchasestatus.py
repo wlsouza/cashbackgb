@@ -1,4 +1,4 @@
-from typing import Union, Optional, List, Dict, Any
+from typing import Any, Dict, List, Optional, Union
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -7,11 +7,8 @@ from app import models, schemas
 
 
 class CrudPurchaseStatus:
-
     async def create(
-        self,
-        db:AsyncSession,
-        purchase_status_in: Dict[str, Any]
+        self, db: AsyncSession, purchase_status_in: Dict[str, Any]
     ) -> models.PurchaseStatus:
         ps_data = purchase_status_in.copy()
         db_purchase_status = models.PurchaseStatus(**ps_data)
@@ -21,20 +18,20 @@ class CrudPurchaseStatus:
         return db_purchase_status
 
     async def get_by_id(
-        self, db:AsyncSession, id: Union[int, str]
+        self, db: AsyncSession, id: Union[int, str]
     ) -> Optional[models.PurchaseStatus]:
         result = await db.execute(
-            select(models.PurchaseStatus)
-            .where(models.PurchaseStatus.id == id)
+            select(models.PurchaseStatus).where(models.PurchaseStatus.id == id)
         )
         return result.scalar()
 
     async def get_by_name(
-        self, db:AsyncSession, name: str
+        self, db: AsyncSession, name: str
     ) -> Optional[models.PurchaseStatus]:
         result = await db.execute(
-            select(models.PurchaseStatus)
-            .where(models.PurchaseStatus.name == name)
+            select(models.PurchaseStatus).where(
+                models.PurchaseStatus.name == name
+            )
         )
         return result.scalar()
 

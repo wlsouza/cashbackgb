@@ -12,7 +12,7 @@ class PurchaseDomain:
     """
 
     # I'm forcing the dev to use named argument to avoid errors
-    def calculate_cashback(self, *, purchase_value:Decimal) -> Decimal:
+    def calculate_cashback(self, *, purchase_value: Decimal) -> Decimal:
         """
         Method that calculates cashback given the purchase value.
         Rule:
@@ -32,13 +32,14 @@ class PurchaseDomain:
             return purchase_value * Decimal(0.15)
         return purchase_value * Decimal(0.2)
 
-
-    async def get_default_purchase_status_id(self,db:AsyncSession, *, purchase_user_id:int) -> int:
+    async def get_default_purchase_status_id(
+        self, db: AsyncSession, *, purchase_user_id: int
+    ) -> int:
         """
         Method that get correct default purchase status for a new purchase.
         Rule:
             - Every new purchase must have the status "In validation", except
-            when the user's CPF is '15350946056', in this case the status 
+            when the user's CPF is '15350946056', in this case the status
             must be "Approved"
         Args:
             purchase_user_id (int): id of purchase user.
@@ -46,8 +47,8 @@ class PurchaseDomain:
 
         Returns:
             int: id of status.
-        """        
-        user = await crud.user.get_by_id(db=db, id = purchase_user_id)
+        """
+        user = await crud.user.get_by_id(db=db, id=purchase_user_id)
         if user.cpf == "15350946056":
             status = await crud.purchase_status.get_by_name(
                 db=db, name="Approved"

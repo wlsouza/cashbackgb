@@ -20,7 +20,6 @@ class UserBase(BaseModel):
     #     return v
 
 
-
 # Properties to receive via API on creation
 class UserCreate(UserBase):
     password: str

@@ -12,9 +12,7 @@ from app.tests.utils.user import random_user_dict
 async def test_resource_token_must_accept_post_verb(
     async_client: AsyncClient,
 ) -> None:
-    response = await async_client.post(
-        f"{settings.API_V1_STR}/auth/login"
-    )
+    response = await async_client.post(f"{settings.API_V1_STR}/auth/login")
     assert response.status_code != status.HTTP_405_METHOD_NOT_ALLOWED
 
 
@@ -33,6 +31,7 @@ async def test_when_credentials_are_valid_must_return_status_200(
     )
     assert response.status_code == status.HTTP_200_OK
 
+
 @pytest.mark.asyncio
 async def test_login_when_credentials_are_valid_must_return_jwt_token(
     async_client: AsyncClient, db: AsyncSession
@@ -48,6 +47,7 @@ async def test_login_when_credentials_are_valid_must_return_jwt_token(
     )
     assert response.json().get("access_token")
 
+
 @pytest.mark.asyncio
 async def test_login_when_credentials_are_invalid_must_return_status_401(
     async_client: AsyncClient, db: AsyncSession
@@ -62,6 +62,7 @@ async def test_login_when_credentials_are_invalid_must_return_status_401(
         f"{settings.API_V1_STR}/auth/login", data=payload
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
 
 @pytest.mark.asyncio
 async def test_login_when_invalid_payload_are_passed_must_return_status_422(

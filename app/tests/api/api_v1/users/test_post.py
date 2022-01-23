@@ -9,6 +9,7 @@ from app.tests.utils.user import random_user_dict
 
 # region create user - POST /users/
 
+
 @pytest.mark.asyncio
 async def test_resource_users_must_accept_post_verb(
     async_client: AsyncClient,
@@ -48,6 +49,7 @@ async def test_when_user_is_created_it_must_be_persisted(
     db_user = await crud.user.get_by_email(db=db, email=user_dict["email"])
     assert db_user
 
+
 @pytest.mark.asyncio
 async def test_when_creating_user_if_a_user_with_this_email_already_exist_returns_status_400(
     async_client: AsyncClient, db: AsyncSession
@@ -58,6 +60,7 @@ async def test_when_creating_user_if_a_user_with_this_email_already_exist_return
         f"{settings.API_V1_STR}/users/", json=user_dict
     )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+
 
 @pytest.mark.asyncio
 async def test_when_creating_user_if_a_user_with_this_cpf_already_exist_returns_status_400(
@@ -71,5 +74,6 @@ async def test_when_creating_user_if_a_user_with_this_cpf_already_exist_returns_
         f"{settings.API_V1_STR}/users/", json=user_dict
     )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+
 
 # endregion

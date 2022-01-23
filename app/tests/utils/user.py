@@ -2,7 +2,7 @@ from typing import Dict, Union
 
 from faker import Faker
 
-fake = Faker('pt_BR')
+fake = Faker("pt_BR")
 
 
 def random_user_dict() -> Dict[str, str]:

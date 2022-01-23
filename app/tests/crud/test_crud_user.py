@@ -1,12 +1,9 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import crud, schemas, models
+from app import crud, models, schemas
 from app.core.security import verify_password
-from app.tests.utils.user import (
-    fake,
-    random_user_dict,
-)
+from app.tests.utils.user import fake, random_user_dict
 
 
 @pytest.mark.asyncio
@@ -33,6 +30,7 @@ async def test_when_create_user_return_hashed_password(
     new_user = await crud.user.create(db=db, user_in=user_in)
     assert hasattr(new_user, "hashed_password")
 
+
 @pytest.mark.asyncio
 async def test_when_create_user_return_valid_hashed_password(
     db: AsyncSession,
@@ -43,12 +41,11 @@ async def test_when_create_user_return_valid_hashed_password(
     result = verify_password(user_dict["password"], new_user.hashed_password)
     assert result
 
+
 @pytest.mark.asyncio
 async def test_if_get_by_email_return_correct_user(db: AsyncSession) -> None:
     new_user = await crud.user.create(db=db, user_in=random_user_dict())
-    returned_user = await crud.user.get_by_email(
-        db=db, email=new_user.email
-    )
+    returned_user = await crud.user.get_by_email(db=db, email=new_user.email)
     assert returned_user.id == new_user.id
 
 
@@ -57,6 +54,7 @@ async def test_if_get_by_id_return_correct_user(db: AsyncSession) -> None:
     new_user = await crud.user.create(db=db, user_in=random_user_dict())
     returned_user = await crud.user.get_by_id(db=db, id=new_user.id)
     assert returned_user.id == new_user.id
+
 
 @pytest.mark.asyncio
 async def test_if_get_by_cpf_return_correct_user(db: AsyncSession) -> None:
@@ -147,9 +145,10 @@ async def test_when_successfully_get_authenticated_user_must_return_user(
     result = await crud.user.get_authenticated_user(
         db=db,
         user_email=user_dict["email"],
-        user_password=user_dict["password"]
+        user_password=user_dict["password"],
     )
     assert isinstance(result, models.User)
+
 
 @pytest.mark.asyncio
 async def test_when_getting_authenticated_user_if_invalid_email_must_return_none(
@@ -160,9 +159,10 @@ async def test_when_getting_authenticated_user_if_invalid_email_must_return_none
     result = await crud.user.get_authenticated_user(
         db=db,
         user_email="invalid_email@test.com",
-        user_password=user_dict["password"]
+        user_password=user_dict["password"],
     )
     assert result is None
+
 
 @pytest.mark.asyncio
 async def test_when_getting_authenticated_user_if_invalid_password_must_return_none(
@@ -173,6 +173,6 @@ async def test_when_getting_authenticated_user_if_invalid_password_must_return_n
     result = await crud.user.get_authenticated_user(
         db=db,
         user_email=user_dict["email"],
-        user_password="invalid_password_test"
+        user_password="invalid_password_test",
     )
     assert result is None

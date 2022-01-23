@@ -28,8 +28,10 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+
 def get_url():
     return settings.SQLALCHEMY_DB_URL
+
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
@@ -54,6 +56,7 @@ def run_migrations_offline():
 
     with context.begin_transaction():
         context.run_migrations()
+
 
 # edited to run in asynchronous mode, follow link for better understanding.
 # https://alembic.sqlalchemy.org/en/latest/cookbook.html#using-asyncio-with-alembic
@@ -92,4 +95,3 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     asyncio.run(run_migrations_online())
-

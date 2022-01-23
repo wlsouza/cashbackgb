@@ -1,9 +1,10 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.database.base import Base
+
 
 class PurchaseStatus(Base):
 
@@ -16,7 +17,11 @@ class PurchaseStatus(Base):
         DateTime, index=False, nullable=False, default=datetime.utcnow()
     )
     time_updated = Column(
-        DateTime, index=False, nullable=False, default=datetime.utcnow(), onupdate=datetime.utcnow()
+        DateTime,
+        index=False,
+        nullable=False,
+        default=datetime.utcnow(),
+        onupdate=datetime.utcnow(),
     )
 
     purchases = relationship("Purchase", back_populates="status")

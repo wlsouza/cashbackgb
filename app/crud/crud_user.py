@@ -1,10 +1,11 @@
+import email
 from typing import Union, Optional, List, Dict, Any
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import models, schemas
-from app.core.security import get_password_hash
+from app.core.security import get_password_hash, verify_password
 
 
 class CrudUser:
@@ -51,7 +52,7 @@ class CrudUser:
         else:
             user_data = user_in.dict()
         if user_data.get("password"):
-            hashed_password = (user_data.pop("password"))
+            hashed_password = get_password_hash(user_data.pop("password"))
             user_data["hashed_password"] = hashed_password
         db_user = models.User(**user_data)
         db.add(db_user)
@@ -91,6 +92,19 @@ class CrudUser:
             return None
         await db.delete(user)
         await db.commit()
+        return user
+
+    async def get_authenticated_user(
+        self,
+        db: AsyncSession,
+        user_email:str,
+        user_password:str
+    ) -> Optional[models.User]:
+        user = await self.get_by_email(db=db, email=user_email)
+        if not user:
+            return None
+        if not verify_password(user_password, user.hashed_password):
+            return None
         return user
 
 

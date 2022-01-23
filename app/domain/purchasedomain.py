@@ -47,7 +47,6 @@ class PurchaseDomain:
         Returns:
             int: id of status.
         """        
-        print("oi")
         user = await crud.user.get_by_id(db=db, id = purchase_user_id)
         if user.cpf == "15350946056":
             status = await crud.purchase_status.get_by_name(

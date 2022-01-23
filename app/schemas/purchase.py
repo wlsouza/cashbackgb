@@ -7,9 +7,9 @@ from pydantic import BaseModel
 
 
 class statusEnum(str, Enum):
-    APPROVED = "APPROVED"
-    IN_VALIDATION = "IN_VALIDATION"
-    DISAPPROVED =  "DISAPPROVED"
+    APPROVED = "Approved"
+    IN_VALIDATION = "In validation"
+    DISAPPROVED =  "Disapproved"
 
 
 # Shared properties
@@ -21,7 +21,6 @@ class PurchaseBase(BaseModel):
 
 # Properties to receive via API on creation
 class PurchaseCreate(PurchaseBase):
-    status: statusEnum
     cpf: str
 
 

@@ -7,3 +7,4 @@ pytest-asyncio
 pytest-cov
 aiosqlite
 httpx>=1.0.0b0
+pygount

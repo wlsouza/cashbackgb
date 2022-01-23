@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import unique
 
 from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.orm import relationship
@@ -11,14 +12,13 @@ class PurchaseStatus(Base):
     __tablename__ = "purchase_status"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
+    name = Column(String, index=True, unique=True, nullable=False)
     description = Column(String, index=False)
     time_created = Column(
-        DateTime, index=False, nullable=False, default=datetime.utcnow()
+        DateTime, nullable=False, default=datetime.utcnow()
     )
     time_updated = Column(
         DateTime,
-        index=False,
         nullable=False,
         default=datetime.utcnow(),
         onupdate=datetime.utcnow(),

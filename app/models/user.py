@@ -16,11 +16,10 @@ class User(Base):
     cpf = Column(String(11), index=True, unique=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     time_created = Column(
-        DateTime, index=False, nullable=False, default=datetime.utcnow()
+        DateTime, nullable=False, default=datetime.utcnow()
     )
     time_updated = Column(
         DateTime,
-        index=False,
         nullable=False,
         default=datetime.utcnow(),
         onupdate=datetime.utcnow(),

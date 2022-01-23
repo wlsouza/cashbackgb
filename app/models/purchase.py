@@ -24,18 +24,17 @@ class Purchase(Base):
     __tablename__ = "purchase"
 
     id = Column(Integer, primary_key=True, index=True)
-    code = Column(String, index=True)
-    value = Column(Numeric, index=True, nullable=False)
+    code = Column(String, index=True, unique=True, nullable=False)
+    value = Column(Numeric, nullable=False)
     date = Column(Date, nullable=False)
-    cashback_value = Column(Numeric, index=True, nullable=False)
+    cashback_value = Column(Numeric, nullable=False)
     status_id = Column(Integer, ForeignKey("purchase_status.id"))
     user_id = Column(Integer, ForeignKey("user.id"))
     time_created = Column(
-        DateTime, index=False, nullable=False, default=datetime.utcnow()
+        DateTime, nullable=False, default=datetime.utcnow()
     )
     time_updated = Column(
         DateTime,
-        index=False,
         nullable=False,
         default=datetime.utcnow(),
         onupdate=datetime.utcnow(),

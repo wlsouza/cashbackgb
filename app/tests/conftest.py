@@ -2,6 +2,7 @@ import asyncio
 from typing import AsyncGenerator
 
 import pytest
+import pytest_asyncio
 from httpx import AsyncClient
 
 from app.core.config import settings
@@ -9,7 +10,7 @@ from app.database.session import async_session
 from app.main import app
 
 
-@pytest.fixture(scope="module")
+@pytest_asyncio.fixture(scope="module")
 async def async_client() -> AsyncGenerator:
     async with AsyncClient(
         app=app, base_url=settings.BASE_URL
@@ -17,7 +18,7 @@ async def async_client() -> AsyncGenerator:
         yield async_client
 
 
-@pytest.fixture(scope="session")
+@pytest_asyncio.fixture(scope="session")
 async def db() -> AsyncGenerator:
     async with async_session() as db:
         yield db

@@ -2,6 +2,8 @@ from decimal import Decimal
 from typing import List
 
 import pytest
+import pytest_asyncio
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import crud, models, schemas
@@ -10,13 +12,13 @@ from app.tests.utils.purchase_status import create_purchase_status_in_db
 from app.tests.utils.user import random_user_dict
 
 
-@pytest.fixture(scope="session", name="random_user")
+@pytest_asyncio.fixture(scope="session", name="random_user")
 async def create_random_user(db: AsyncSession) -> models.User:
     user = await crud.user.create(db=db, user_in=random_user_dict())
     return user
 
 
-@pytest.fixture(name="random_purchase")
+@pytest_asyncio.fixture(name="random_purchase")
 async def random_purchase(
     db: AsyncSession, random_user: models.User
 ) -> models.Purchase:
@@ -26,7 +28,7 @@ async def random_purchase(
     return new_purchase
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest_asyncio.fixture(scope="session", autouse=True)
 async def create_basic_purchase_status(
     db: AsyncSession,
 ) -> List[models.PurchaseStatus]:

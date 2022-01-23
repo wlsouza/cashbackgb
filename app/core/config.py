@@ -7,7 +7,8 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     # ENV configs
     APP_ENVIRONMENT: str = "dev"  # TODO: transform it in a enum.
-    AP1_V1_STR: str = "/api/v1"
+    BASE_URL: str = "http://localhost"
+    API_V1_STR: str = "/api/v1"
 
     # SECURITY configs
     SECRET_KEY: str = secrets.token_urlsafe(32)

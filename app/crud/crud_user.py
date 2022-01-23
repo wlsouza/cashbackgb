@@ -1,5 +1,5 @@
 import email
-from typing import Union, Optional, List, Dict, Any
+from typing import Any, Dict, List, Optional, Union
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,9 +9,8 @@ from app.core.security import get_password_hash, verify_password
 
 
 class CrudUser:
-
     async def get_by_id(
-        self, db:AsyncSession, id: Union[int, str]
+        self, db: AsyncSession, id: Union[int, str]
     ) -> Optional[models.User]:
         result = await db.execute(
             select(models.User).where(models.User.id == id)
@@ -19,7 +18,7 @@ class CrudUser:
         return result.scalar()
 
     async def get_multi(
-        self, db: AsyncSession, skip:int = 0, limit:int = 100
+        self, db: AsyncSession, skip: int = 0, limit: int = 100
     ) -> Optional[List[models.User]]:
         result = await db.execute(
             select(models.User).offset(skip).limit(limit)
@@ -27,7 +26,7 @@ class CrudUser:
         return result.scalars().all()
 
     async def get_by_email(
-        self, db:AsyncSession, email:str
+        self, db: AsyncSession, email: str
     ) -> Optional[models.User]:
         result = await db.execute(
             select(models.User).where(models.User.email == email)
@@ -35,7 +34,7 @@ class CrudUser:
         return result.scalar()
 
     async def get_by_cpf(
-        self, db:AsyncSession, cpf:str
+        self, db: AsyncSession, cpf: str
     ) -> Optional[models.User]:
         result = await db.execute(
             select(models.User).where(models.User.cpf == cpf)
@@ -44,8 +43,8 @@ class CrudUser:
 
     async def create(
         self,
-        db:AsyncSession,
-        user_in: Union[schemas.UserCreate, Dict[str, Any]]
+        db: AsyncSession,
+        user_in: Union[schemas.UserCreate, Dict[str, Any]],
     ) -> models.User:
         if isinstance(user_in, dict):
             user_data = user_in.copy()
@@ -95,10 +94,7 @@ class CrudUser:
         return user
 
     async def get_authenticated_user(
-        self,
-        db: AsyncSession,
-        user_email:str,
-        user_password:str
+        self, db: AsyncSession, user_email: str, user_password: str
     ) -> Optional[models.User]:
         user = await self.get_by_email(db=db, email=user_email)
         if not user:

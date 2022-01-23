@@ -1,7 +1,15 @@
 from datetime import datetime
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Numeric, DateTime, Date
-from sqlalchemy.orm import relationship 
+from sqlalchemy import (
+    Column,
+    Date,
+    DateTime,
+    ForeignKey,
+    Integer,
+    Numeric,
+    String,
+)
+from sqlalchemy.orm import relationship
 
 from app.database.base import Base
 
@@ -9,6 +17,7 @@ from app.database.base import Base
 # a possible sum of purchases it would be expensive (in computational
 # resources) to calculate the cashback value of each purchase.
 # And in the reverse scenario (sum of the percentages) it makes no sense.
+
 
 class Purchase(Base):
 
@@ -18,14 +27,18 @@ class Purchase(Base):
     code = Column(String, index=True)
     value = Column(Numeric, index=True, nullable=False)
     date = Column(Date, nullable=False)
-    cashback_value = Column(Numeric, index=True, nullable=False) 
+    cashback_value = Column(Numeric, index=True, nullable=False)
     status_id = Column(Integer, ForeignKey("purchase_status.id"))
     user_id = Column(Integer, ForeignKey("user.id"))
     time_created = Column(
         DateTime, index=False, nullable=False, default=datetime.utcnow()
     )
     time_updated = Column(
-        DateTime, index=False, nullable=False, default=datetime.utcnow(), onupdate=datetime.utcnow()
+        DateTime,
+        index=False,
+        nullable=False,
+        default=datetime.utcnow(),
+        onupdate=datetime.utcnow(),
     )
 
     status = relationship("PurchaseStatus", back_populates="purchases")

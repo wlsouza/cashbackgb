@@ -1,6 +1,6 @@
-from enum import Enum
 from datetime import date
 from decimal import Decimal
+from enum import Enum
 from typing import Optional
 
 from pydantic import BaseModel
@@ -9,7 +9,7 @@ from pydantic import BaseModel
 class statusEnum(str, Enum):
     APPROVED = "Approved"
     IN_VALIDATION = "In validation"
-    DISAPPROVED =  "Disapproved"
+    DISAPPROVED = "Disapproved"
 
 
 # Shared properties

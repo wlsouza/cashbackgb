@@ -1,4 +1,3 @@
-from os import access
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status

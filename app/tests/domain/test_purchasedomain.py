@@ -40,7 +40,7 @@ async def test_get_default_purchase_status_id_when_cpf_is_15350946056_must_retur
     # Mocking the cpf returned by crud.user.get_by_id
     mocked_user_get_by_id.return_value.cpf = "15350946056"
     arg_mock = mock.Mock()
-    await domain.purchase.get_default_purchase_status(
+    await domain.purchase.get_default_purchase_status_id(
         db=arg_mock, purchase_user_id=arg_mock
     )
     # asserting if the method was called with "Approved"

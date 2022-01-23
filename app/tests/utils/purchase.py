@@ -12,7 +12,6 @@ fake = Faker('pt_BR')
 # create the object and not pass a random integer.
 def random_purchase_dict(
     user:models.User,
-    status= models.PurchaseStatus
 ) -> Dict[str, Union[str, Decimal]]:
     user_dict = {
         "code": fake.lexify(),

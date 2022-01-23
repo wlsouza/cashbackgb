@@ -119,7 +119,7 @@ async def test_if_get_multi_return_the_correct_quantity_of_user(
 async def test_if_get_multi_skip_the_correct_quantity_of_user(
     db: AsyncSession,
 ) -> None:
-    for _ in range(3):
+    for _ in range(5):
         user_dict = random_user_dict()
         await crud.user.create(db=db, user_in=user_dict)
     db_users = await crud.user.get_multi(db=db, limit=5)

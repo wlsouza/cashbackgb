@@ -1,12 +1,15 @@
 import asyncio
-from typing import AsyncGenerator
+from typing import AsyncGenerator, List
 
 import pytest
 import pytest_asyncio
 from httpx import AsyncClient
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app import models, crud
 from app.core.config import settings
 from app.database.session import async_session
+from app.tests.utils.purchase_status import create_purchase_status_in_db
 from app.main import app
 
 
@@ -23,6 +26,24 @@ async def db() -> AsyncGenerator:
     async with async_session() as db:
         yield db
 
+
+# fixture to create basic purchase_status (used in api and crud tests) 
+@pytest_asyncio.fixture(scope="session", autouse=True)
+async def create_basic_purchase_status(
+    db: AsyncSession,
+) -> List[models.PurchaseStatus]:
+    basic_names = ["Approved", "In validation", "Disapproved"]
+    status_obj = []
+    for status_name in basic_names:
+        status = await crud.purchase_status.get_by_name(
+            db=db, name=status_name
+        )
+        if not status:
+            status = await create_purchase_status_in_db(
+                db=db, name=status_name
+            )
+        status_obj.append(status)
+    return status_obj
 
 # to correct the error "RuntimeError: Task attached to a different loop"
 # https://github.com/pytest-dev/pytest-asyncio/issues/38#issuecomment-264418154

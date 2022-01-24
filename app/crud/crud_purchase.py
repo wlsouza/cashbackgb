@@ -21,7 +21,7 @@ class CrudPurchase:
         result = await db.execute(
             select(models.Purchase).offset(skip).limit(limit)
         )
-        return result.scalars().all()
+        return result.scalars().unique().all()
 
     async def get_multi_by_user_id(
         self, db: AsyncSession, user_id: int, skip: int = 0, limit: int = 100
@@ -32,7 +32,7 @@ class CrudPurchase:
             .offset(skip)
             .limit(limit)
         )
-        return result.scalars().all()
+        return result.scalars().unique().all()
 
     async def create(
         self,

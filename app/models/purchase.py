@@ -40,5 +40,7 @@ class Purchase(Base):
         onupdate=datetime.utcnow(),
     )
 
-    status = relationship("PurchaseStatus", back_populates="purchases")
-    user = relationship("User", back_populates="purchases")
+    status_ = relationship("PurchaseStatus", back_populates="purchases_", lazy="joined")
+    user_ = relationship("User", back_populates="purchases_", lazy="joined")
+
+    # __mapper_args__ = {"eager_defaults": True}

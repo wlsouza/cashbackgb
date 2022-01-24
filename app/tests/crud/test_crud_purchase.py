@@ -10,6 +10,7 @@ from app import crud, models, schemas
 from app.tests.utils.purchase import random_purchase_dict
 from app.tests.utils.purchase_status import create_purchase_status_in_db
 from app.tests.utils.user import random_user_dict
+from app.tests.utils.purchase import fake
 
 
 @pytest_asyncio.fixture(scope="session", name="random_user")
@@ -74,7 +75,7 @@ async def test_when_create_purchase_with_random_user_the_status_id_must_be_of_in
 ) -> None:
     purchase_dict = random_purchase_dict(user=random_user)
     new_purchase = await crud.purchase.create(db=db, purchase_in=purchase_dict)
-    assert new_purchase.status.name == "In validation"
+    assert new_purchase.status_.name == "In validation"
 
 
 @pytest.mark.asyncio
@@ -88,7 +89,7 @@ async def test_when_create_purchase_with_the_user_of_cpf_15350946056_the_status_
     new_purchase = await crud.purchase.create(
         db=db, purchase_in=random_purchase_dict(user=user)
     )
-    assert new_purchase.status.name == "Approved"
+    assert new_purchase.status_.name == "Approved"
 
 
 @pytest.mark.asyncio
@@ -114,7 +115,7 @@ async def test_if_delete_by_id_really_delete_the_purchase(
 async def test_update_purchase_by_purchaseupdateput_schema(
     db: AsyncSession, random_purchase: models.Purchase
 ) -> None:
-    update_data = random_purchase_dict(user=random_purchase.user)
+    update_data = random_purchase_dict(user=random_purchase.user_)
     purchase_update_in = schemas.PurchaseUpdatePUT(
         **update_data, status=schemas.statusEnum.IN_VALIDATION
     )
@@ -128,7 +129,7 @@ async def test_update_purchase_by_purchaseupdateput_schema(
 async def test_update_purchase_by_purchaseupdatepatch_schema(
     db: AsyncSession, random_purchase: models.Purchase
 ) -> None:
-    expected_code = "TESTINGbySCHEMA"
+    expected_code = fake.lexify()
     purchase_update_in = schemas.PurchaseUpdatePATCH(code=expected_code)
     updated_purchase = await crud.purchase.update(
         db=db, db_purchase=random_purchase, purchase_in=purchase_update_in
@@ -140,7 +141,7 @@ async def test_update_purchase_by_purchaseupdatepatch_schema(
 async def test_update_purchase_by_dict(
     db: AsyncSession, random_purchase: models.Purchase
 ) -> None:
-    expected_code = "TESTINGbyDICT"
+    expected_code = fake.lexify()
     updated_purchase = await crud.purchase.update(
         db=db, db_purchase=random_purchase, purchase_in={"code": expected_code}
     )

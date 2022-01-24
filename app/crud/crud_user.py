@@ -23,7 +23,7 @@ class CrudUser:
         result = await db.execute(
             select(models.User).offset(skip).limit(limit)
         )
-        return result.scalars().all()
+        return result.scalars().unique().all()
 
     async def get_by_email(
         self, db: AsyncSession, email: str

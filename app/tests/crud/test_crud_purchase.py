@@ -7,10 +7,12 @@ import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import crud, models, schemas
-from app.tests.utils.purchase import random_purchase_dict_for_crud
-from app.tests.utils.purchase_status import create_purchase_status_in_db
 from app.tests.utils.user import random_user_dict
 from app.tests.utils.purchase import fake
+from app.tests.utils.purchase import (
+    random_purchase_dict_for_crud,
+    create_random_purchase_in_db
+)
 
 
 @pytest_asyncio.fixture(scope="session", name="random_user")
@@ -23,9 +25,7 @@ async def create_random_user(db: AsyncSession) -> models.User:
 async def random_purchase(
     db: AsyncSession, random_user: models.User
 ) -> models.Purchase:
-    new_purchase = await crud.purchase.create(
-        db=db, purchase_in=random_purchase_dict_for_crud(user=random_user)
-    )
+    new_purchase = await create_random_purchase_in_db(db=db, user = random_user)
     return new_purchase
 
 @pytest.mark.asyncio
@@ -105,9 +105,7 @@ async def test_update_purchase_by_purchaseupdateput_schema(
     db: AsyncSession, random_purchase: models.Purchase
 ) -> None:
     update_data = random_purchase_dict_for_crud(user=random_purchase.user_)
-    purchase_update_in = schemas.PurchaseUpdatePUT(
-        **update_data, status=schemas.statusEnum.IN_VALIDATION
-    )
+    purchase_update_in = schemas.PurchaseUpdatePUT(**update_data)
     updated_purchase = await crud.purchase.update(
         db=db, db_purchase=random_purchase, purchase_in=purchase_update_in
     )
@@ -162,9 +160,7 @@ async def test_if_get_multi_return_the_correct_quantity_of_purchases(
     db: AsyncSession, random_user: models.User
 ) -> None:
     for _ in range(3):
-        await crud.purchase.create(
-            db=db, purchase_in=random_purchase_dict_for_crud(user=random_user)
-        )
+        await create_random_purchase_in_db(db=db, user=random_user)
     purchases = await crud.purchase.get_multi(db=db, limit=2)
     assert len(purchases) == 2
 
@@ -174,9 +170,7 @@ async def test_if_get_multi_skip_the_correct_quantity_of_purchases(
     db: AsyncSession, random_user: models.User
 ) -> None:
     for _ in range(5):
-        await crud.purchase.create(
-            db=db, purchase_in=random_purchase_dict_for_crud(user=random_user)
-        )
+        await create_random_purchase_in_db(db=db, user=random_user)
     db_purchases = await crud.purchase.get_multi(db=db, limit=5)
     purchase = await crud.purchase.get_multi(db=db, skip=2, limit=1)
     assert purchase[0].id == db_purchases[2].id
@@ -199,9 +193,7 @@ async def test_if_get_multi_by_user_id_return_the_correct_quantity_of_purchases(
     db: AsyncSession, random_user: models.User
 ) -> None:
     for _ in range(3):
-        await crud.purchase.create(
-            db=db, purchase_in=random_purchase_dict_for_crud(user=random_user)
-        )
+        await create_random_purchase_in_db(db=db, user=random_user)
     purchases = await crud.purchase.get_multi_by_user_id(
         db=db, user_id=random_user.id, limit=2
     )
@@ -213,9 +205,7 @@ async def test_if_get_multi_by_user_id_skip_the_correct_quantity_of_purchases(
     db: AsyncSession, random_user: models.User
 ) -> None:
     for _ in range(5):
-        await crud.purchase.create(
-            db=db, purchase_in=random_purchase_dict_for_crud(user=random_user)
-        )
+        await create_random_purchase_in_db(db=db, user=random_user)
     db_purchases = await crud.purchase.get_multi_by_user_id(
         db=db, user_id=random_user.id, limit=5
     )

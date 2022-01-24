@@ -3,8 +3,9 @@ from decimal import Decimal
 from typing import Dict, Union
 
 from faker import Faker
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import models
+from app import models, crud
 
 fake = Faker("pt_BR")
 
@@ -31,3 +32,11 @@ def random_purchase_dict_for_json(
         "cpf": user.cpf,
     }
     return user_dict
+
+async def create_random_purchase_in_db(
+    db: AsyncSession, user: models.User
+) -> models.Purchase:
+    new_purchase = await crud.purchase.create(
+        db=db, purchase_in=random_purchase_dict_for_crud(user=user)
+    )
+    return new_purchase

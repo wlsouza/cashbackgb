@@ -15,6 +15,14 @@ class CrudPurchase:
         )
         return result.scalar()
 
+    async def get_by_code(
+        self, db: AsyncSession, code: Union[int, str]
+    ) -> Optional[models.Purchase]:
+        result = await db.execute(
+            select(models.Purchase).where(models.Purchase.code == code)
+        )
+        return result.scalar()
+
     async def get_multi(
         self, db: AsyncSession, skip: int = 0, limit: int = 100
     ) -> Optional[List[models.Purchase]]:

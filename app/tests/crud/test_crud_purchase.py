@@ -101,6 +101,14 @@ async def test_if_get_by_id_return_correct_purchase(
     )
     assert returned_purchase.code == random_purchase.code
 
+@pytest.mark.asyncio
+async def test_if_get_by_code_return_correct_purchase(
+    db: AsyncSession, random_purchase: models.Purchase
+) -> None:
+    returned_purchase = await crud.purchase.get_by_code(
+        db=db, code=random_purchase.code
+    )
+    assert returned_purchase.id == random_purchase.id
 
 @pytest.mark.asyncio
 async def test_if_delete_by_id_really_delete_the_purchase(

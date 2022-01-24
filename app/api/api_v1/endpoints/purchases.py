@@ -20,6 +20,7 @@ async def create_purchase(
     token_user: models.User = Depends(deps.get_token_user),
     db: AsyncSession = Depends(deps.get_db)
 ) -> Any:
+    # access rules
     # if the purchase cpf is not the same as the user
     if purchase_in.cpf != token_user.cpf:
         raise HTTPException(
@@ -30,7 +31,10 @@ async def create_purchase(
             )
         )
     # if the purchase code has already been used.
-    if await crud.purchase.get_by_code(db=db, code=purchase_in.code):
+    target_code_purchase = await crud.purchase.get_by_code(
+        db=db, code=purchase_in.code
+    )
+    if target_code_purchase:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="The purchase code has already been used."
@@ -38,4 +42,59 @@ async def create_purchase(
     purchase = await crud.purchase.create(db=db, purchase_in=purchase_in)
     return purchase
 
+
+@router.put(
+    "/{purchase_id}",
+    response_model=schemas.Purchase,
+    status_code=status.HTTP_200_OK,
+    responses=deps.GET_TOKEN_USER_RESPONSES,
+)
+async def update_current_user(
+    purchase_id: str,
+    purchase_in: schemas.PurchaseUpdatePUT,
+    token_user: models.User = Depends(deps.get_token_user),
+    db: AsyncSession = Depends(deps.get_db)
+) -> Any:
+    purchase = await crud.purchase.get_by_id(db=db, id=purchase_id)
+    # access rules
+    if not purchase:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Purchase not found."
+        )
+    if purchase.user_id != token_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="It is not allowed to change purchases from other users."
+        )
+    if purchase.status_.name != "In validation":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=(
+                "Only purchases in validation can be changed."
+            )
+        )
+    # data rules
+    if purchase.user_.cpf != purchase_in.cpf:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=(
+                "It is not allowed to transfer purchases to other users."
+            )
+        )
+    # the "IF"s below have been separated only for readability. 
+    # (Zen of python n.7)
+    if purchase_in.code != purchase.code:
+        target_code_purchase = await crud.purchase.get_by_code(
+            db=db, code=purchase_in.code
+        )
+        if target_code_purchase:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="The purchase code has already been used."
+            )
+    purchase = await crud.purchase.update(
+        db=db, db_purchase=purchase, purchase_in=purchase_in
+    )
+    return purchase
 

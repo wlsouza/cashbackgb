@@ -38,7 +38,6 @@ class PurchaseUpdatePATCH(PurchaseBase):
 
 # Properties to receive via API on update -- PUT (force fill all fields)
 class PurchaseUpdatePUT(PurchaseBase):
-    status: statusEnum
     cpf: str
 
     class Config:

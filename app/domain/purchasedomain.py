@@ -26,6 +26,7 @@ class PurchaseDomain:
         Returns:
             Decimal: Calculated cashback.
         """
+        purchase_value = Decimal(purchase_value)
         if purchase_value <= 1000:
             return purchase_value * Decimal(0.1)
         if purchase_value <= 1500:

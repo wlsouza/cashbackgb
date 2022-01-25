@@ -130,3 +130,9 @@ dmypy.json
 
 # test database
 test.db
+
+# vscode
+.vscode
+
+# docker data
+.data

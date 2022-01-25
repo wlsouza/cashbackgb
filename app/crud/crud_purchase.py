@@ -15,13 +15,21 @@ class CrudPurchase:
         )
         return result.scalar()
 
+    async def get_by_code(
+        self, db: AsyncSession, code: Union[int, str]
+    ) -> Optional[models.Purchase]:
+        result = await db.execute(
+            select(models.Purchase).where(models.Purchase.code == code)
+        )
+        return result.scalar()
+
     async def get_multi(
         self, db: AsyncSession, skip: int = 0, limit: int = 100
     ) -> Optional[List[models.Purchase]]:
         result = await db.execute(
             select(models.Purchase).offset(skip).limit(limit)
         )
-        return result.scalars().all()
+        return result.scalars().unique().all()
 
     async def get_multi_by_user_id(
         self, db: AsyncSession, user_id: int, skip: int = 0, limit: int = 100
@@ -32,7 +40,7 @@ class CrudPurchase:
             .offset(skip)
             .limit(limit)
         )
-        return result.scalars().all()
+        return result.scalars().unique().all()
 
     async def create(
         self,

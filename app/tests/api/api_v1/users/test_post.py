@@ -75,5 +75,12 @@ async def test_when_creating_user_if_a_user_with_this_cpf_already_exist_returns_
     )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
-
+@pytest.mark.asyncio
+async def test_when_creating_user_if_body_is_not_valid_must_return_status_422(
+    async_client: AsyncClient,
+) -> None:
+    response = await async_client.post(
+        f"{settings.API_V1_STR}/users/", json={"invalid":"body"}
+    )
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 # endregion

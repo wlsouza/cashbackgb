@@ -5,6 +5,9 @@ install-dev:
 	pip install -r requirements.txt
 	pip install -r dev-requirements.txt
 
+migration:
+	alembic upgrade head
+
 clean:
 	@find ./ -name '*.pyc' -exec rm -f {} \;
 	@find ./ -name 'Thumbs.db' -exec rm -f {} \;

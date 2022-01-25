@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     ) -> Optional[str]:
         if v:
             return v
-        if values.get("APP_ENVIRONMENT").lower() == "PROD":
+        if values.get("APP_ENVIRONMENT") == "PROD":
             return values.get("PROD_DB_URL")
         return values.get("TEST_DB_URL")
 

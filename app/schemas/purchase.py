@@ -1,9 +1,9 @@
 from datetime import date
 from decimal import Decimal
 from enum import Enum
-from typing import Optional, Any, Set
+from typing import Optional, Any, Dict
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class statusEnum(str, Enum):
@@ -58,6 +58,20 @@ class Purchase(PurchaseInDBBase):
     status: str
     cpf: str
     cashback_value: Decimal
+    cashback_percent: int = 0
+
+    @validator("cashback_percent", pre=True, always=True)
+    def calculate_cashback_percent(
+        cls, v: Optional[str], values: Dict[str, Any]
+    ) -> Optional[str]:
+        # v is the field value
+        # value is the schema fields as dict
+        if v:
+            return v
+        value = values["value"]
+        cashback_value = values["cashback_value"]
+        percent = cashback_value/value*100
+        return percent
 
     #I would really rather bring a separate object (ex: status = {
     # "id": 1, "name": "In Validation", "description": "In validation status"

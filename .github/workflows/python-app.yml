@@ -33,7 +33,7 @@ jobs:
       with:
         path: venv
         key: ${{runner.os}}-venv-${{hashFiles('**/*requirements.txt')}}
-        restore-keys: ${{runnes.os}}-venv-
+        restore-keys: ${{runner.os}}-venv-
 
     - name: Create and activate virtual env
       run: |

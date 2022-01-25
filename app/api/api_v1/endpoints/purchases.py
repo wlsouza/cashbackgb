@@ -49,7 +49,7 @@ async def create_purchase(
     status_code=status.HTTP_200_OK,
     responses=deps.GET_TOKEN_USER_RESPONSES,
 )
-async def update_current_user(
+async def update_current_purchase(
     purchase_id: str,
     purchase_in: schemas.PurchaseUpdatePUT,
     token_user: models.User = Depends(deps.get_token_user),
@@ -98,3 +98,27 @@ async def update_current_user(
     )
     return purchase
 
+@router.delete(
+    "/{purchase_id}",
+    status_code=status.HTTP_200_OK,
+    response_model=schemas.Purchase,
+    responses=deps.GET_TOKEN_USER_RESPONSES,
+)
+async def delete_purchase_by_id(
+    purchase_id: int,
+    db: AsyncSession = Depends(deps.get_db),
+    token_user: models.User = Depends(deps.get_token_user),
+):
+    purchase = await crud.purchase.get_by_id(db=db, id=purchase_id)
+    if not purchase:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Purchase not found.",
+        )
+    if token_user.id != purchase.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="The user doesn't have enough privileges",
+        )
+    deleted_user = await crud.purchase.delete_by_id(db=db, id=purchase_id)
+    return deleted_user

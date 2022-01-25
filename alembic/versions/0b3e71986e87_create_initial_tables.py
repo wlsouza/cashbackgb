@@ -1,4 +1,4 @@
-"""fix relationship
+"""create initial tables
 
 Revision ID: 0b3e71986e87
 Revises: 11558fbe6d88
@@ -21,10 +21,17 @@ def upgrade():
     op.create_table(
         "purchase_status",
         sa.Column("id", sa.Integer(), nullable=False),
+        sa.Column("name", sa.String(), nullable=False),
         sa.Column("description", sa.String(), nullable=True),
         sa.Column("time_created", sa.DateTime(), nullable=False),
         sa.Column("time_updated", sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint("id"),
+    )
+    op.create_index(
+        op.f("ix_purchase_status_name"),
+        "purchase_status",
+        ["name"],
+        unique=True,
     )
     op.create_index(
         op.f("ix_purchase_status_description"),
@@ -92,6 +99,9 @@ def downgrade():
     op.drop_index(op.f("ix_user_cpf"), table_name="user")
     op.drop_table("user")
     op.drop_index(op.f("ix_purchase_status_id"), table_name="purchase_status")
+    op.drop_index(
+        op.f("ix_purchase_status_name"), table_name="purchase_status"
+    )
     op.drop_index(
         op.f("ix_purchase_status_description"), table_name="purchase_status"
     )

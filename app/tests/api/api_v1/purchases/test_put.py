@@ -17,10 +17,10 @@ from app.tests.utils.purchase import (
     fake,
     random_purchase_dict_for_json
 )
-# region update purchase - PUT /purchases/
+# region update purchase by id- PUT /purchases/{purchase_id}
 
 @pytest.mark.asyncio
-async def test_resource_purchases_must_accept_post_verb(
+async def test_resource_purchase_id_must_accept_post_verb(
     async_client: AsyncClient, random_purchase:models.Purchase
 ) -> None:
     response = await async_client.put(
@@ -199,6 +199,19 @@ async def test_when_updating_purchase_by_id_if_token_is_not_active_yet_must_retu
         json=payload,
     )
     assert response.status_code == status.HTTP_403_FORBIDDEN
+
+@pytest.mark.asyncio
+async def test_when_updating_purchase_by_id_if_body_is_not_valid_must_return_422(
+    async_client: AsyncClient, random_purchase:models.Purchase
+) -> None:
+    payload = {"invalid": "body"}
+    headers = get_user_token_headers(random_purchase.user_)
+    response = await async_client.put(
+        f"{settings.API_V1_STR}/purchases/{random_purchase.id}",
+        headers=headers,
+        json=payload,
+    )
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
 # endregion
 

@@ -163,4 +163,17 @@ async def test_when_creating_purchase_if_code_has_already_been_must_return_403(
     )
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
+@pytest.mark.asyncio
+async def test_when_creating_purchase_if_body_is_not_valid_must_return_422(
+    random_user:models.User,
+    async_client: AsyncClient,
+) -> None:
+    headers = get_user_token_headers(random_user)
+    response = await async_client.post(
+        f"{settings.API_V1_STR}/purchases/",
+        headers=headers,
+        json={"invalid":"body"}
+    )
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+
 # endregion

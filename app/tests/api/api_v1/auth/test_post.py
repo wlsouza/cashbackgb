@@ -7,6 +7,7 @@ from app import crud
 from app.core.config import settings
 from app.tests.utils.user import random_user_dict
 
+# region create jwt token - POST /auth/login
 
 @pytest.mark.asyncio
 async def test_resource_token_must_accept_post_verb(
@@ -77,3 +78,5 @@ async def test_login_when_invalid_payload_are_passed_must_return_status_422(
         f"{settings.API_V1_STR}/auth/login", data=payload
     )
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+
+# endregion

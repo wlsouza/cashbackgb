@@ -57,7 +57,7 @@ jobs:
     - name: Add project to zip file
       run: |
         cd ./
-        zip -g ./api.zip -r .
+        zip -g ./api.zip -r ./app
     
     - name: Upload zip file artifact
       uses: actions/upload-artifact@v2

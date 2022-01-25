@@ -25,8 +25,8 @@ def random_purchase_dict() -> Dict[str,Any]:
 def test_purchase_schema_if_cashback_percent_is_not_passed_it_must_be_calculated(
     random_purchase_dict:Dict[str,Any]
 ):
-    expected = float(random_purchase_dict["cashback_value"]/random_purchase_dict["value"]*100)
     purchase_schema = schemas.Purchase(**random_purchase_dict)
+    expected = round(purchase_schema.cashback_value/purchase_schema.value*100)
     assert purchase_schema.cashback_percent == expected
 
 def test_purchase_schema_if_cashback_percent_is_passed_it_must_returned(

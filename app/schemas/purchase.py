@@ -62,15 +62,15 @@ class Purchase(PurchaseInDBBase):
 
     @validator("cashback_percent", pre=True, always=True)
     def calculate_cashback_percent(
-        cls, v: Optional[str], values: Dict[str, Any]
-    ) -> Optional[str]:
+        cls, v: int, values: Dict[str, Any]
+    ) -> int:
         # v is the field value
         # value is the schema fields as dict
         if v:
             return v
         value = values["value"]
         cashback_value = values["cashback_value"]
-        percent = cashback_value/value*100
+        percent = round(cashback_value/value*100)
         return percent
 
     #I would really rather bring a separate object (ex: status = {

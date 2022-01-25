@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -8,6 +8,18 @@ from app.api import deps
 
 router = APIRouter()
 
+@router.get(
+    "/",
+    response_model=List[schemas.Purchase],
+    status_code=status.HTTP_200_OK,
+    responses=deps.GET_TOKEN_USER_RESPONSES,
+)
+async def get_purchases(
+    token_user: models.User = Depends(deps.get_token_user),
+) -> Any:
+    # return user purchases
+    purchases = token_user.purchases_
+    return purchases
 
 @router.post(
     "/",
@@ -122,3 +134,4 @@ async def delete_purchase_by_id(
         )
     deleted_user = await crud.purchase.delete_by_id(db=db, id=purchase_id)
     return deleted_user
+

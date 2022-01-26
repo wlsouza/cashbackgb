@@ -5,4 +5,5 @@ asyncpg >= 0.25.0
 alembic >= 1.7.5
 passlib[bcrypt] >= 1.7.4
 pyjwt[crypto] >= 2.3.0
-mangum
+mangum >= 0.11.0
+aiosqlite

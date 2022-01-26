@@ -18,7 +18,7 @@ GET_TOKEN_USER_RESPONSES = GET_TOKEN_PAYLOAD_RESPONSES | {
 }
 
 reusable_oauth2 = OAuth2PasswordBearer(
-    tokenUrl=f"{settings.API_V1_STR}/auth/login"
+    tokenUrl=f"{settings.STAGE}{settings.API_V1_STR}/auth/login"
 )
 
 async def get_db() -> AsyncGenerator:

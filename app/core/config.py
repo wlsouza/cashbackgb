@@ -1,14 +1,30 @@
+import os
 import secrets
 from typing import Any, Dict, Optional
 
 from pydantic import BaseSettings, validator
 
+stage = os.environ.get('STAGE', None)
+openapi_prefix = f"/{stage}" if stage else "/"
 
 class Settings(BaseSettings):
     # ENV configs
-    APP_ENVIRONMENT: str = "dev"  # TODO: transform it in a enum.
+    APP_ENVIRONMENT: str = "dev"
     BASE_URL: str = "http://localhost"
     API_V1_STR: str = "/api/v1"
+    STAGE: str = ""
+
+    @validator("STAGE", pre=True)
+    def define_root_path(
+        cls, v:str, values: Dict[str, Any]
+    ) -> str:
+        if v:
+            return v
+        # I didn't use walrus operator for old versions compatibility reasons.
+        stage = os.environ.get('STAGE', None)
+        if stage:
+            return f"/{stage}"
+        return ""
 
     # SECURITY configs
     SECRET_KEY: str = secrets.token_urlsafe(32)

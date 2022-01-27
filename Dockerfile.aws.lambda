@@ -5,6 +5,6 @@ RUN yum install -y postgresql-devel gcc python3-dev musl-dev && yum clean all
 RUN pip install --upgrade pip && pip install --no-cache-dir --upgrade -r /app/requirements.txt
 COPY ./ /app/
 ENV PYTHONPATH=/app
-ENV STAGE=DEV
+ENV STAGE=/dev
 ENV SQLALCHEMY_DB_URL=$RDS_DB_URL
 CMD ["app.main.handler"]

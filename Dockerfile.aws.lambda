@@ -4,7 +4,8 @@ COPY ./requirements.txt /app/requirements.txt
 RUN yum install -y postgresql-devel gcc python3-dev musl-dev && yum clean all
 RUN pip install --upgrade pip && pip install --no-cache-dir --upgrade -r /app/requirements.txt
 COPY ./ /app/
+ARG AWS_RDS_DB_URL
 ENV PYTHONPATH=/app
 ENV STAGE=/dev
-ENV SQLALCHEMY_DB_URL=$RDS_DB_URL
+ENV SQLALCHEMY_DB_URL=$AWS_RDS_DB_URL
 CMD ["app.main.handler"]

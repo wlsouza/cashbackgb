@@ -1,0 +1,10 @@
+FROM public.ecr.aws/lambda/python:3.9
+WORKDIR /app
+COPY ./requirements.txt /app/requirements.txt
+RUN yum install -y postgresql-devel gcc python3-dev musl-dev
+RUN yum clean all
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+COPY ./ /app/
+ENV PYTHONPATH=/app
+CMD ["app.main.handler"]

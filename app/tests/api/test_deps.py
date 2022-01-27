@@ -5,6 +5,7 @@ import pytest
 import jwt
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
+from httpx import AsyncClient
 
 from app.api import deps
 from app.core.security import create_jwt_token
@@ -12,7 +13,7 @@ from app.core.security import create_jwt_token
 
 # region test get_db function
 @pytest.mark.asyncio
-async def test_get_db_must_return_asyncsession():
+async def test_get_db_must_return_asyncgenerator():
     db_async_iter = deps.get_db()
     assert isinstance(db_async_iter, AsyncGenerator)
 
@@ -29,6 +30,28 @@ async def test_get_db_after_be_async_iterated_must_return_asyncsession():
     db_async_iter = deps.get_db()
     db_session = await db_async_iter.__anext__()
     assert isinstance(db_session, AsyncSession)
+
+# endregion
+
+# region test get_async_client function
+@pytest.mark.asyncio
+async def test_get_async_client_must_return_asyncgenerator():
+    async_client_iter = deps.get_async_client()
+    assert isinstance(async_client_iter, AsyncGenerator)
+
+
+@pytest.mark.asyncio
+async def test_get_async_client_must_can_be_async_iterated():
+    async_client_iter = deps.get_async_client()
+    async_client = await async_client_iter.__anext__()
+    assert async_client
+
+
+@pytest.mark.asyncio
+async def test_get_async_after_be_async_iterated_must_return_asyncclient():
+    async_client_iter = deps.get_async_client()
+    async_client = await async_client_iter.__anext__()
+    assert isinstance(async_client, AsyncClient)
 
 # endregion
 

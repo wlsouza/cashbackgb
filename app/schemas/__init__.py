@@ -8,3 +8,4 @@ from .purchase import (
 )
 from .token import Token, TokenPayload
 from .user import User, UserCreate, UserUpdatePATCH, UserUpdatePUT
+from .cashback import CashBack

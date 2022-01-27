@@ -5,6 +5,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import ValidationError
+from httpx import AsyncClient
 
 from app import schemas, models, crud
 from app.core.config import settings
@@ -24,6 +25,10 @@ reusable_oauth2 = OAuth2PasswordBearer(
 async def get_db() -> AsyncGenerator:
     async with async_session() as db:
         yield db
+
+async def get_async_client() -> AsyncGenerator:
+    async with AsyncClient() as async_client:
+        yield async_client
 
 def get_token_payload(token: str = Depends(reusable_oauth2)) -> Dict[str, Any]:
     try:

@@ -20,7 +20,7 @@ from app.tests.utils.purchase import (
 # region update purchase by id- PUT /purchases/{purchase_id}
 
 @pytest.mark.asyncio
-async def test_resource_purchase_id_must_accept_post_verb(
+async def test_resource_purchase_id_must_accept_put_verb(
     async_client: AsyncClient, random_purchase:models.Purchase
 ) -> None:
     response = await async_client.put(

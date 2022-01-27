@@ -1,5 +1,3 @@
-from os import access
-
 from pydantic import BaseModel
 
 

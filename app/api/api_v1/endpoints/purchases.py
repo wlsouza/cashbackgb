@@ -8,6 +8,7 @@ from app.api import deps
 
 router = APIRouter()
 
+# TODO: add query params to skip and limit 
 @router.get(
     "/",
     response_model=List[schemas.Purchase],
@@ -15,10 +16,15 @@ router = APIRouter()
     responses=deps.GET_TOKEN_USER_RESPONSES,
 )
 async def get_purchases(
+    skip: int = 0,
+    limit: int = 100,
+    db: AsyncSession = Depends(deps.get_db),
     token_user: models.User = Depends(deps.get_token_user),
 ) -> Any:
     # return user purchases
-    purchases = token_user.purchases_
+    purchases = await crud.purchase.get_multi_by_user_id(
+        db=db, user_id=token_user.id, skip=skip, limit=limit
+    )
     return purchases
 
 @router.post(

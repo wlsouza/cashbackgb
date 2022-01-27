@@ -1,0 +1,8 @@
+functions:
+  test_lambda:
+    image: 382985906819.dkr.ecr.us-east-1.amazonaws.com/cashbackgb:lambda
+    events:
+      - http:
+        path: /{proxy+}
+        method: ANY
+        cors: true

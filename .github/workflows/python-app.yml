@@ -14,7 +14,6 @@ on:
 jobs:
 
   CI:
-    name: Run tests
     runs-on: ubuntu-latest
 
     steps:
@@ -48,22 +47,6 @@ jobs:
         env TEST_DB_URL="sqlite+aiosqlite:///test.db"
         source venv/bin/activate
         make test
-        
-    # - name: Create Zip file with the dependencies
-    #   run: |
-    #     cd ./venv/lib/python3.10/site-packages
-    #     zip -r9 ../../../../api.zip .
-    
-    # - name: Add project to zip file
-    #   run: |
-    #     cd ./
-    #     zip -g ./api.zip -r ./app
-    
-    # - name: Upload zip file artifact
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: api
-    #     path: api.zip
 
   CD:
       runs-on: ubuntu-latest

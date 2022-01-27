@@ -13,5 +13,12 @@ provider:
   apiGateway:
     description: REST API ${self:service}
     metrics: true
-
-functions: ${file(functions.yml):functions}
+  
+functions:
+  CashBackGB:
+    image: 382985906819.dkr.ecr.us-east-1.amazonaws.com/cashbackgb:lambda
+    events:
+      - http:
+        path: /{proxy+}
+        method: ANY
+        cors: true

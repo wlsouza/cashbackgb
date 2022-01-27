@@ -9,7 +9,7 @@ openapi_prefix = f"/{stage}" if stage else "/"
 
 class Settings(BaseSettings):
     # ENV configs
-    APP_ENVIRONMENT: str = "dev"
+    APP_ENVIRONMENT: str = "DEV"
     BASE_URL: str = "http://localhost"
     API_V1_STR: str = "/api/v1"
     STAGE: str = ""
@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     SECRET_KEY: str = secrets.token_urlsafe(32)
     ACCESS_TOKEN_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 3  # 60 min * 3 hrs = 3 hours
+
+    # Third Services config
+    EXTERNAL_CASHBACK_API: str = "https://mockbin.org/bin/7c0bc5b5-4709-4adc-b4bc-97add5be00f0"
 
     # DB configs
     PROD_DB_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/CASHBACKGB"  # noqa

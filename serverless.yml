@@ -1,12 +1,11 @@
 service: cashbackgb
 
-frameworkVersion: "2"
+frameworkVersion: "3"
 
 provider:
   name: aws
   stage: ${opt:stage}
   region: us-east-1
-  lambdaHashingVersion: 20201221
   memorySize: 1024
   timeout: 300
   apiName: ${self:service}-${opt:stage}

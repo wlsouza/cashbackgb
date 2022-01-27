@@ -78,9 +78,9 @@ jobs:
           uses: actions/checkout@v2
       
         - name: Create docker images
-          run: docker build -t 382985906819.dkr.ecr.us-east-1.amazonaws.com/cashbackgb:lambda . -f Dockerfile.aws.lambda
           env:
-            RDS_DB_URL: ${{ secrets.AWS_RDS_DB_URL }}
+            AWS_RDS_DB_URL: ${{ secrets.AWS_RDS_DB_URL }}
+          run: docker build --build-arg AWS_RDS_DB_URL=$AWS_RDS_DB_URL -t 382985906819.dkr.ecr.us-east-1.amazonaws.com/cashbackgb:lambda . -f Dockerfile.aws.lambda
 
         - name: Upload docker into ECR
           run: docker push 382985906819.dkr.ecr.us-east-1.amazonaws.com/cashbackgb:lambda

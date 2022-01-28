@@ -32,8 +32,8 @@
 
 <p align="center">
  <a href="#-about">About</a> •
- <a href="#-features">Features</a> •
- <a href="#-demo">Layout</a> • 
+ <a href="#-Features">Features</a> •
+ <a href="#-demo">Demo</a> • 
  <a href="#-running-the-project">Running the project</a> • 
  <a href="#-tech-stack">Tech Stack</a> •
  <a href="#-how-to-contribute">How to contribute</a> •
@@ -100,66 +100,64 @@ Obs:
   * I'm assuming you already know and will follow these steps using a virtualenv. If you don't know, see more here. 
 
 > <details open>
-> <summary>
-> <b> Running locally </b>
-> </summary>
+>	 <summary>
+> 		<b> Running locally </b>
+>	 </summary>
 > 
-> 1. Clone this repository:  
-> `$ git clone https://github.com/wlsouza/cashbackgb.git`  
-> 2. Access the project folder cmd/terminal:  
-> `$ cd cashbackgb`  
-> 3. Install the dependencies (step for Linux users only):  
-> `$ make install-dev`  
-> 4. Install the dependencies (step for windows users only):  
-> `$ pip install -r ./requirements.txt`  
-> `$ pip install -r ./requirements-dev.txt`  
-> 5. Run the application in development mode:  
-> `$ uvicorn app.main:app `  
-> 6. The server will start at port: 8000 - [see the docs](http://localhost:8000/docs)
+>	 1. Clone this repository:  
+>	 	`$ git clone https://github.com/wlsouza/cashbackgb.git`  
+> 	2. Access the project folder cmd/terminal:  
+>	 	`$ cd cashbackgb`  
+> 	3. Install the dependencies (step for Linux users only):  
+> 		`$ make install-dev`  
+>	 4. Install the dependencies (step for windows users only):  
+>	 	`$ pip install -r ./requirements.txt`  
+> 		`$ pip install -r ./requirements-dev.txt`  
+> 	5. Run the application in development mode:  
+> 		`$ uvicorn app.main:app `  
+>	 6. The server will start at port: 8000 - [see the docs](http://localhost:8000/docs)
 > </details>
 
 
-
-<details>
-  <summary>
-    <b> Running in docker </b>
-  </summary>
-  
-  > 1. Clone this repository:  
-    `$ git clone https://github.com/wlsouza/cashbackgb.git`   
-  > 2. Access the project folder cmd/terminal:  
-    `$ cd cashbackgb`  
-  > 3. Create a copy and rename the file "example.env" to ".env":  
-    `$ cp example.env .env` - (for Linux users)  
-    `$ copy example.env .env` - (for Windows users)  
-  > 4. Run the docker-compose in development mode:  
-    `$ docker-compose build --no--cache && docker-compose up -d`  
-  > 5. The server will start at port: 8000 - [see the docs](http://localhost:8000/docs)
-</details>
-
+> <details>
+> 	<summary>
+> 		<b> Running in docker </b>
+> 	</summary>
+> 
+> 	1. Clone this repository:  
+> 		`$ git clone https://github.com/wlsouza/cashbackgb.git`   
+> 	2. Access the project folder cmd/terminal:  
+> 		`$ cd cashbackgb`  
+> 	3. Create a copy and rename the file "example.env" to ".env":  
+>		`$ cp example.env .env` - (for Linux users)  
+>		`$ copy example.env .env` - (for Windows users)  
+>	4. Run the docker-compose in development mode:  
+>		`$ docker-compose build --no--cache && docker-compose up -d`  
+> 	5. The server will start at port: 8000 - [see the docs](http://localhost:8000/docs)
+> </details>
 
 
-<details>
-  <summary>
-    <b> Running tests </b>
-  </summary>
-
-  > 1. Clone this repository:  
-    `$ git clone https://github.com/wlsouza/cashbackgb.git`  
-  > 2. Access the project folder cmd/terminal  
-    `$ cd cashbackgb`  
-  > 3. Install the dependencies (step for Linux users only)  
-    `$ make install-dev`  
-  > 4. Install the dependencies (step for windows users only)  
-    `$ pip install -r ./requirements.txt`  
-    `$ pip install -r ./requirements-dev.txt`  
-  > 5. Run the tests (step for Linux users only)  
-    `$ make test`  
-  > 6. Run the tests (step for windows users only)  
-    `$ set APP_ENVIRONMENT="TEST"`  
-    `$ alembic upgrade head`  
-    `$ pytest app/tests/ -v --cov=app`  
-</details>
+> <details>
+>	<summary>
+>		<b> Running tests </b>
+>	</summary>
+>
+>	1. Clone this repository:  
+>		`$ git clone https://github.com/wlsouza/cashbackgb.git`  
+>	2. Access the project folder cmd/terminal  
+>		`$ cd cashbackgb`  
+>	3. Install the dependencies (step for Linux users only)  
+>		`$ make install-dev`  
+>	4. Install the dependencies (step for windows users only)  
+>		`$ pip install -r ./requirements.txt`  
+>		`$ pip install -r ./requirements-dev.txt`  
+>	5. Run the tests (step for Linux users only)  
+>		`$ make test`  
+>	6. Run the tests (step for windows users only)  
+>		`$ set APP_ENVIRONMENT="TEST"`  
+>		`$ alembic upgrade head`  
+>		`$ pytest app/tests/ -v --cov=app`  
+> </details>
 
 ---
 
@@ -169,27 +167,37 @@ The following tools were used in the construction of the project:
 
   [Python](https://www.python.org) + [FastAPI](https://fastapi.tiangolo.com)
 
-**Dependences**
--   **[sqlalchemy](https://github.com/sqlalchemy/sqlalchemy)**
--   **[psycopg2](https://github.com/psycopg/psycopg2)**
--   **[asyncpg](https://github.com/MagicStack/asyncpg)**
--   **[aiosqlite](https://github.com/omnilib/aiosqlite)**
--   **[alembic](https://github.com/sqlalchemy/alembic)**
--   **[passlib](https://github.com/glic3rinu/passlib)**
--   **[pyjwt](https://github.com/jpadilla/pyjwt)**
--   **[httpx](https://github.com/encode/httpx)**
--   **[mangum](https://github.com/jordaneremieff/mangum)**
 
-**Development Dependences**
--   **[black](https://github.com/psf/black)**
--   **[flake8](https://github.com/PyCQA/flake8)**
--   **[isort](https://github.com/PyCQA/isort)**
--   **[faker](https://github.com/joke2k/faker)**
--   **[pytest](https://github.com/pytest-dev/pytest)**
--   **[pytest-asyncio](https://github.com/pytest-dev/pytest-asyncio)**
--   **[pytest-cov](https://github.com/pytest-dev/pytest-cov)**
--   **[pygount](https://github.com/roskakori/pygount)**
+> <details open>
+>	<summary>
+>		<b> Dependences </b>
+>	</summary>
+>
+> -   [sqlalchemy](https://github.com/sqlalchemy/sqlalchemy)  
+> -   [psycopg2](https://github.com/psycopg/psycopg2)  
+> -   [asyncpg](https://github.com/MagicStack/asyncpg)  
+> -   [aiosqlite](https://github.com/omnilib/aiosqlite)  
+> -   [alembic](https://github.com/sqlalchemy/alembic)  
+> -   [passlib](https://github.com/glic3rinu/passlib)  
+> -   [pyjwt](https://github.com/jpadilla/pyjwt)  
+> -   [httpx](https://github.com/encode/httpx)  
+> -   [mangum](https://github.com/jordaneremieff/mangum)  
+> </details>
 
+> <details>
+>	<summary>
+>		<b> Development Dependences </b>
+>	</summary>
+>
+> -   [black](https://github.com/psf/black)  
+> -   [flake8](https://github.com/PyCQA/flake8)  
+> -   [isort](https://github.com/PyCQA/isort)  
+> -   [faker](https://github.com/joke2k/faker)  
+> -   [pytest](https://github.com/pytest-dev/pytest)  
+> -   [pytest-asyncio](https://github.com/pytest-dev/pytest-asyncio)  
+> -   [pytest-cov](https://github.com/pytest-dev/pytest-cov)  
+> -   [pygount](https://github.com/roskakori/pygount)  
+> </details>
 ---
 
 ## 💪 How to contribute

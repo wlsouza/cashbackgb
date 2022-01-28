@@ -69,7 +69,7 @@
 ✔️ Documentation with Redoc  
 ✔️ JWT authentication  
 ✔️ Unitary tests  
-✔️ Integration Tests  
+✔️ Integration Tests (I chose to use the "tests trophy", if you don't know it you can see more about it [here](https://kentcdodds.com/blog/write-tests).)  
 ✔️ Asynchronous database layer (both Postgres and SqLite)  
 ✔️ Database Migrations  
 ✔️ Dockerized application  

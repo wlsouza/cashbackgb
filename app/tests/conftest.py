@@ -6,7 +6,7 @@ import pytest_asyncio
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import models, crud
+from app import models, crud, schemas
 from app.core.config import settings
 from app.database.session import async_session
 from app.tests.utils.purchase_status import create_purchase_status_in_db
@@ -32,7 +32,10 @@ async def db() -> AsyncGenerator:
 async def create_basic_purchase_status(
     db: AsyncSession,
 ) -> List[models.PurchaseStatus]:
-    basic_names = ["Approved", "In validation", "Disapproved"]
+    basic_names = [
+        schemas.statusEnum.APPROVED,
+        schemas.statusEnum.IN_VALIDATION,
+        schemas.statusEnum.DISAPPROVED]
     status_obj = []
     for status_name in basic_names:
         status = await crud.purchase_status.get_by_name(

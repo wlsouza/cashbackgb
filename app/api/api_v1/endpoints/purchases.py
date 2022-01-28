@@ -85,7 +85,7 @@ async def update_current_purchase(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="It is not allowed to change purchases from other users."
         )
-    if purchase.status_.name != "In validation":
+    if purchase.status_.name != schemas.statusEnum.IN_VALIDATION:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail=(

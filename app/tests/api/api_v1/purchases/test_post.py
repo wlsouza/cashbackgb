@@ -3,7 +3,7 @@ from fastapi import status
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import models, crud
+from app import models, crud, schemas
 from app.core.config import settings
 from app.tests.utils.user import random_user_dict
 from app.tests.utils.purchase import (
@@ -79,7 +79,7 @@ async def test_when_purchase_is_created_if_user_cpf_is_not_15350946056_purchase_
         headers=headers,
         json=payload
     )
-    assert response.json().get("status") == "In validation"
+    assert response.json().get("status") == schemas.statusEnum.IN_VALIDATION
 
 @pytest.mark.asyncio
 async def test_when_purchase_is_created_if_user_cpf_is_15350946056_purchase_status_must_approved(
@@ -96,7 +96,7 @@ async def test_when_purchase_is_created_if_user_cpf_is_15350946056_purchase_stat
         headers=headers,
         json=payload
     )
-    assert response.json().get("status") == "Approved"
+    assert response.json().get("status") == schemas.statusEnum.APPROVED
 
 @pytest.mark.asyncio
 async def test_when_creating_purchase_if_token_user_is_not_authenticated_must_return_401(

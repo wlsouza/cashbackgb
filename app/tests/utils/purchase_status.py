@@ -15,19 +15,6 @@ def random_purchase_status_dict() -> Dict[str, str]:
     }
     return user_dict
 
-
-def in_validation_status_dict():
-    return {"name": "In validation", "description": "In validation status"}
-
-
-def approved_status_dict():
-    return {"name": "Approved", "description": "Approved status"}
-
-
-def disapproved_status_dict():
-    return {"name": "Disapproved", "description": "Disapproved status"}
-
-
 async def create_purchase_status_in_db(
     db: AsyncSession, name: str
 ) -> models.PurchaseStatus:

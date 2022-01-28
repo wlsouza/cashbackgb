@@ -56,7 +56,7 @@ async def test_when_create_purchase_with_random_user_the_status_id_must_be_of_in
 ) -> None:
     purchase_dict = random_purchase_dict_for_crud(user=random_user)
     new_purchase = await crud.purchase.create(db=db, purchase_in=purchase_dict)
-    assert new_purchase.status_.name == "In validation"
+    assert new_purchase.status_.name == schemas.statusEnum.IN_VALIDATION
 
 
 @pytest.mark.asyncio
@@ -70,7 +70,7 @@ async def test_when_create_purchase_with_the_user_of_cpf_15350946056_the_status_
     new_purchase = await crud.purchase.create(
         db=db, purchase_in=random_purchase_dict_for_crud(user=user)
     )
-    assert new_purchase.status_.name == "Approved"
+    assert new_purchase.status_.name == schemas.statusEnum.APPROVED
 
 
 @pytest.mark.asyncio

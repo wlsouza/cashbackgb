@@ -4,7 +4,7 @@ from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import status
 
-from app import crud, models
+from app import crud, models, schemas
 from app.core.config import settings
 from app.tests.utils.user import random_user_dict 
 from app.tests.utils.auth import (
@@ -116,7 +116,7 @@ async def test_when_updating_purchase_by_id_if_purchase_status_is_not_in_validat
 ) -> None:
     
     await crud.purchase.update(
-        db=db, db_purchase=random_purchase, purchase_in={"status":"Approved"}
+        db=db, db_purchase=random_purchase, purchase_in={"status":schemas.statusEnum.APPROVED}
     )
     payload = random_purchase_dict_for_json(random_purchase.user_)
     headers = get_user_token_headers(random_purchase.user_)

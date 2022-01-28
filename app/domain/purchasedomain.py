@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import crud
+from app import crud, schemas
 
 
 class PurchaseDomain:
@@ -52,11 +52,11 @@ class PurchaseDomain:
         user = await crud.user.get_by_id(db=db, id=purchase_user_id)
         if user.cpf == "15350946056":
             status = await crud.purchase_status.get_by_name(
-                db=db, name="Approved"
+                db=db, name=schemas.statusEnum.APPROVED
             )
         else:
             status = await crud.purchase_status.get_by_name(
-                db=db, name="In validation"
+                db=db, name=schemas.statusEnum.IN_VALIDATION
             )
         return status.id
 

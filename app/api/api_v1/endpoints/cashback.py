@@ -14,9 +14,8 @@ router = APIRouter()
     "/",
     response_model=schemas.CashBack,
     status_code=status.HTTP_200_OK,
-    responses=deps.GET_TOKEN_USER_RESPONSES | {
-        503: {"model": schemas.HTTPError}
-    },
+    responses=deps.GET_TOKEN_USER_RESPONSES
+    | {503: {"model": schemas.HTTPError}},
 )
 async def get_cashback(
     async_client: AsyncClient = Depends(deps.get_async_client),

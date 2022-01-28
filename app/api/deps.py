@@ -1,13 +1,13 @@
-from typing import Dict, Any, AsyncGenerator
+from typing import Any, AsyncGenerator, Dict
 
 import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import ValidationError
 from httpx import AsyncClient
+from pydantic import ValidationError
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import schemas, models, crud
+from app import crud, models, schemas
 from app.core.config import settings
 from app.core.security import decode_jwt_token
 from app.database.session import async_session
@@ -22,13 +22,16 @@ reusable_oauth2 = OAuth2PasswordBearer(
     tokenUrl=f"{settings.STAGE}{settings.API_V1_STR}/auth/login"
 )
 
+
 async def get_db() -> AsyncGenerator:
     async with async_session() as db:
         yield db
 
+
 async def get_async_client() -> AsyncGenerator:
     async with AsyncClient() as async_client:
         yield async_client
+
 
 def get_token_payload(token: str = Depends(reusable_oauth2)) -> Dict[str, Any]:
     try:
@@ -65,7 +68,6 @@ async def get_token_user(
     user = await crud.user.get_by_id(db, id=int(token_data.sub))
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
     return user

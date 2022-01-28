@@ -1,5 +1,4 @@
 from datetime import datetime
-from enum import unique
 
 from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.orm import relationship
@@ -14,9 +13,7 @@ class PurchaseStatus(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, unique=True, nullable=False)
     description = Column(String, index=False)
-    time_created = Column(
-        DateTime, nullable=False, default=datetime.utcnow()
-    )
+    time_created = Column(DateTime, nullable=False, default=datetime.utcnow())
     time_updated = Column(
         DateTime,
         nullable=False,
@@ -24,6 +21,8 @@ class PurchaseStatus(Base):
         onupdate=datetime.utcnow(),
     )
 
-    purchases_ = relationship("Purchase", back_populates="status_", lazy="joined")
+    purchases_ = relationship(
+        "Purchase", back_populates="status_", lazy="joined"
+    )
 
     # __mapper_args__ = {"eager_defaults": True}

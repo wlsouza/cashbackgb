@@ -15,6 +15,7 @@ def random_purchase_status_dict() -> Dict[str, str]:
     }
     return user_dict
 
+
 async def create_purchase_status_in_db(
     db: AsyncSession, name: str
 ) -> models.PurchaseStatus:

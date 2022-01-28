@@ -17,7 +17,8 @@ class PurchaseDomain:
         Method that calculates cashback given the purchase value.
         Rule:
             - For purchases worth up to 1000 BRL the cashback will be 10%.
-            - For purchases with a value between 1000 and 1500 BRL the cashback will be 15%.
+            - For purchases with a value between 1000 and 1500 BRL the
+            cashback will be 15%.
             - For purchases over 1500 BRL the cashback will be 20%.
 
         Args:

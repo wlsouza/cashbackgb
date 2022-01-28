@@ -62,11 +62,12 @@ class CrudPurchase:
         # treats the dictionary to insert the status_id.
         if not create_data.get("status_id"):
             if create_data.get("status"):
-                # treats the dictionary to insert the status_id instead of the name.
+                # treats the dictionary to insert the status_id instead
+                # of the name.
                 status = await crud.purchase_status.get_by_name(
                     db=db, name=create_data.pop("status")
                 )
-                create_data["status_id"] = status_id
+                create_data["status_id"] = status.id
             else:
                 # get default domain status
                 status_id = (
@@ -76,7 +77,8 @@ class CrudPurchase:
                 )
                 create_data["status_id"] = status_id
 
-        # apply cashback business rule because PurchaseCreate schema don't have this value.
+        # apply cashback business rule because PurchaseCreate schema
+        # don't have this value.
         if not create_data.get("cashback_value"):
             cashback_value = domain.purchase.calculate_cashback(
                 purchase_value=create_data.get("value")
@@ -120,7 +122,8 @@ class CrudPurchase:
             )
             update_data["status_id"] = status.id
 
-        # apply cashback business rule because PurchaseUpdate schema don't have this value.
+        # apply cashback business rule because PurchaseUpdate
+        # schema don't have this value.
         if not update_data.get("cashback_value") and update_data.get("value"):
             cashback_value = domain.purchase.calculate_cashback(
                 purchase_value=update_data.get("value")

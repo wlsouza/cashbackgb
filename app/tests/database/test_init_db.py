@@ -4,6 +4,7 @@ import pytest
 
 from app.database.init_db import init_db
 
+
 @pytest.mark.asyncio
 @mock.patch("app.database.init_db.crud.purchase_status.create")
 @mock.patch("app.database.init_db.crud.purchase_status.get_by_name")

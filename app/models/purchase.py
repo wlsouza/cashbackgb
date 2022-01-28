@@ -30,9 +30,7 @@ class Purchase(Base):
     cashback_value = Column(Numeric, nullable=False)
     status_id = Column(Integer, ForeignKey("purchase_status.id"))
     user_id = Column(Integer, ForeignKey("user.id"))
-    time_created = Column(
-        DateTime, nullable=False, default=datetime.utcnow()
-    )
+    time_created = Column(DateTime, nullable=False, default=datetime.utcnow())
     time_updated = Column(
         DateTime,
         nullable=False,
@@ -40,7 +38,9 @@ class Purchase(Base):
         onupdate=datetime.utcnow(),
     )
 
-    status_ = relationship("PurchaseStatus", back_populates="purchases_", lazy="joined")
+    status_ = relationship(
+        "PurchaseStatus", back_populates="purchases_", lazy="joined"
+    )
     user_ = relationship("User", back_populates="purchases_", lazy="joined")
 
     # __mapper_args__ = {"eager_defaults": True}

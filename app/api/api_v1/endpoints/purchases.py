@@ -6,9 +6,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app import crud, schemas, models
 from app.api import deps
 
+
 router = APIRouter()
 
-# TODO: add query params to skip and limit 
+
 @router.get(
     "/",
     response_model=List[schemas.Purchase],
@@ -26,6 +27,7 @@ async def get_purchases(
         db=db, user_id=token_user.id, skip=skip, limit=limit
     )
     return purchases
+
 
 @router.post(
     "/",
@@ -100,7 +102,7 @@ async def update_current_purchase(
                 "It is not allowed to transfer purchases to other users."
             )
         )
-    # the "IF"s below have been separated only for readability. 
+    # the "IF"s below have been separated only for readability.
     # (Zen of python n.7)
     if purchase_in.code != purchase.code:
         target_code_purchase = await crud.purchase.get_by_code(
@@ -115,6 +117,7 @@ async def update_current_purchase(
         db=db, db_purchase=purchase, purchase_in=purchase_in
     )
     return purchase
+
 
 @router.delete(
     "/{purchase_id}",
@@ -140,4 +143,3 @@ async def delete_purchase_by_id(
         )
     deleted_user = await crud.purchase.delete_by_id(db=db, id=purchase_id)
     return deleted_user
-

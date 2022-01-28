@@ -1,18 +1,16 @@
 from decimal import Decimal
-from typing import List
 
 import pytest
 import pytest_asyncio
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import crud, models, schemas
-from app.tests.utils.user import random_user_dict
-from app.tests.utils.purchase import fake
 from app.tests.utils.purchase import (
+    create_random_purchase_in_db,
+    fake,
     random_purchase_dict_for_crud,
-    create_random_purchase_in_db
 )
+from app.tests.utils.user import random_user_dict
 
 
 @pytest_asyncio.fixture(scope="session", name="random_user")
@@ -25,8 +23,9 @@ async def create_random_user(db: AsyncSession) -> models.User:
 async def random_purchase(
     db: AsyncSession, random_user: models.User
 ) -> models.Purchase:
-    new_purchase = await create_random_purchase_in_db(db=db, user = random_user)
+    new_purchase = await create_random_purchase_in_db(db=db, user=random_user)
     return new_purchase
+
 
 @pytest.mark.asyncio
 async def test_create_purchase_by_schema(
@@ -82,6 +81,7 @@ async def test_if_get_by_id_return_correct_purchase(
     )
     assert returned_purchase.code == random_purchase.code
 
+
 @pytest.mark.asyncio
 async def test_if_get_by_code_return_correct_purchase(
     db: AsyncSession, random_purchase: models.Purchase
@@ -90,6 +90,7 @@ async def test_if_get_by_code_return_correct_purchase(
         db=db, code=random_purchase.code
     )
     assert returned_purchase.id == random_purchase.id
+
 
 @pytest.mark.asyncio
 async def test_if_delete_by_id_really_delete_the_purchase(

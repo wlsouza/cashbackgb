@@ -37,7 +37,7 @@ def test_purchase_schema_if_cashback_percent_is_not_passed_it_must_be_calculated
 def test_purchase_schema_if_cashback_percent_is_passed_it_must_returned(
     random_purchase_dict: Dict[str, Any]
 ):
-    expected = random.randint(0, 20)
+    expected = random.randint(1, 20)
     purchase_schema = schemas.Purchase(
         **random_purchase_dict, cashback_percent=expected
     )

@@ -37,7 +37,7 @@
  <a href="#-running-the-project">Running the project</a> • 
  <a href="#-tech-stack">Tech Stack</a> •
  <a href="#-how-to-contribute">How to contribute</a> •
- <a href="%EF%B8%8F-autor">Author</a> • 
+ <a href="#%EF%B8%8F-autor">Author</a> • 
  <a href="#-license">License</a>
 
 </p>

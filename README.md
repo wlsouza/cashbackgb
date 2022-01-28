@@ -18,6 +18,10 @@
    
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/wlsouza/cashbackgb">
   
+  <a href="https://github.com/wlsouza/cashbackgb/actions/workflows/python-app.yml">
+    <img alt="Repository size" src="https://github.com/wlsouza/cashbackgb/actions/workflows/python-app.yml/badge.svg">
+  </a>	
+	  
   <a href="https://github.com/wlsouza/cashbackgb/commits/master">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/wlsouza/cashbackgb">
   </a>

@@ -101,7 +101,7 @@ Before you begin, you will need to have the following tools installed on your ma
 
 Obs:
   * If an environment variable named APP_ENVIRONMENT is set to "PROD", the API by default will try to connect to a postgres database, otherwise it will create a sqlite database called temp.db in the project's root folder.  
-  * I'm assuming you already know and will follow these steps using a virtualenv. If you don't know, see more here. 
+  * I'm assuming you already know and will follow these steps using a virtualenv. If you don't know, see more [here](https://docs.python.org/3/library/venv.html). 
 
 > <details open>
 >	 <summary>

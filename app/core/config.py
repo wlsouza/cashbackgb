@@ -4,8 +4,9 @@ from typing import Any, Dict, Optional
 
 from pydantic import BaseSettings, validator
 
-stage = os.environ.get('STAGE', None)
+stage = os.environ.get("STAGE", None)
 openapi_prefix = f"/{stage}" if stage else "/"
+
 
 class Settings(BaseSettings):
     # ENV configs
@@ -15,13 +16,11 @@ class Settings(BaseSettings):
     STAGE: str = ""
 
     @validator("STAGE", pre=True)
-    def define_root_path(
-        cls, v:str, values: Dict[str, Any]
-    ) -> str:
+    def define_root_path(cls, v: str, values: Dict[str, Any]) -> str:
         if v:
             return v
         # I didn't use walrus operator for old versions compatibility reasons.
-        stage = os.environ.get('STAGE', None)
+        stage = os.environ.get("STAGE", None)
         if stage:
             return f"/{stage}"
         return ""
@@ -32,7 +31,9 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 3  # 60 min * 3 hrs = 3 hours
 
     # Third Services config
-    EXTERNAL_CASHBACK_API: str = "https://mockbin.org/bin/7c0bc5b5-4709-4adc-b4bc-97add5be00f0"
+    EXTERNAL_CASHBACK_API: str = (
+        "https://mockbin.org/bin/7c0bc5b5-4709-4adc-b4bc-97add5be00f0"
+    )
 
     # DB configs
     PROD_DB_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/CASHBACKGB"  # noqa

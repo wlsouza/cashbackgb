@@ -1,18 +1,16 @@
 from decimal import Decimal
-from typing import List
 
 import pytest
 import pytest_asyncio
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import crud, models, schemas
-from app.tests.utils.user import random_user_dict
-from app.tests.utils.purchase import fake
 from app.tests.utils.purchase import (
+    create_random_purchase_in_db,
+    fake,
     random_purchase_dict_for_crud,
-    create_random_purchase_in_db
 )
+from app.tests.utils.user import random_user_dict
 
 
 @pytest_asyncio.fixture(scope="session", name="random_user")
@@ -25,8 +23,9 @@ async def create_random_user(db: AsyncSession) -> models.User:
 async def random_purchase(
     db: AsyncSession, random_user: models.User
 ) -> models.Purchase:
-    new_purchase = await create_random_purchase_in_db(db=db, user = random_user)
+    new_purchase = await create_random_purchase_in_db(db=db, user=random_user)
     return new_purchase
+
 
 @pytest.mark.asyncio
 async def test_create_purchase_by_schema(
@@ -56,7 +55,7 @@ async def test_when_create_purchase_with_random_user_the_status_id_must_be_of_in
 ) -> None:
     purchase_dict = random_purchase_dict_for_crud(user=random_user)
     new_purchase = await crud.purchase.create(db=db, purchase_in=purchase_dict)
-    assert new_purchase.status_.name == "In validation"
+    assert new_purchase.status_.name == schemas.statusEnum.IN_VALIDATION
 
 
 @pytest.mark.asyncio
@@ -70,7 +69,7 @@ async def test_when_create_purchase_with_the_user_of_cpf_15350946056_the_status_
     new_purchase = await crud.purchase.create(
         db=db, purchase_in=random_purchase_dict_for_crud(user=user)
     )
-    assert new_purchase.status_.name == "Approved"
+    assert new_purchase.status_.name == schemas.statusEnum.APPROVED
 
 
 @pytest.mark.asyncio
@@ -82,6 +81,7 @@ async def test_if_get_by_id_return_correct_purchase(
     )
     assert returned_purchase.code == random_purchase.code
 
+
 @pytest.mark.asyncio
 async def test_if_get_by_code_return_correct_purchase(
     db: AsyncSession, random_purchase: models.Purchase
@@ -90,6 +90,7 @@ async def test_if_get_by_code_return_correct_purchase(
         db=db, code=random_purchase.code
     )
     assert returned_purchase.id == random_purchase.id
+
 
 @pytest.mark.asyncio
 async def test_if_delete_by_id_really_delete_the_purchase(

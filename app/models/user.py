@@ -15,9 +15,7 @@ class User(Base):
     email = Column(String, index=True, unique=True, nullable=False)
     cpf = Column(String(11), index=True, unique=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-    time_created = Column(
-        DateTime, nullable=False, default=datetime.utcnow()
-    )
+    time_created = Column(DateTime, nullable=False, default=datetime.utcnow())
     time_updated = Column(
         DateTime,
         nullable=False,
@@ -25,6 +23,8 @@ class User(Base):
         onupdate=datetime.utcnow(),
     )
 
-    purchases_ = relationship("Purchase", back_populates="user_",lazy="joined")
+    purchases_ = relationship(
+        "Purchase", back_populates="user_", lazy="joined"
+    )
 
     # __mapper_args__ = {"eager_defaults": True}

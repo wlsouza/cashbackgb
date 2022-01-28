@@ -1,7 +1,7 @@
 from datetime import date
 from decimal import Decimal
 from enum import Enum
-from typing import Optional, Any, Dict
+from typing import Any, Dict, Optional
 
 from pydantic import BaseModel, validator
 
@@ -24,7 +24,8 @@ class PurchaseCreate(PurchaseBase):
     cpf: str
 
 
-# Properties to receive via API on update -- PATCH (allows not filling all fields)
+# Properties to receive via API on update
+# PATCH (allows not filling all fields)
 class PurchaseUpdatePATCH(PurchaseBase):
     code: Optional[str] = None
     value: Optional[Decimal] = None
@@ -36,7 +37,8 @@ class PurchaseUpdatePATCH(PurchaseBase):
         extra = "forbid"
 
 
-# Properties to receive via API on update -- PUT (force fill all fields)
+# Properties to receive via API on update
+# PUT (force fill all fields)
 class PurchaseUpdatePUT(PurchaseBase):
     cpf: str
 
@@ -61,24 +63,22 @@ class Purchase(PurchaseInDBBase):
     cashback_percent: int = 0
 
     @validator("cashback_percent", pre=True, always=True)
-    def calculate_cashback_percent(
-        cls, v: int, values: Dict[str, Any]
-    ) -> int:
+    def calculate_cashback_percent(cls, v: int, values: Dict[str, Any]) -> int:
         # v is the field value
         # value is the schema fields as dict
         if v:
             return v
         value = values["value"]
         cashback_value = values["cashback_value"]
-        percent = round(cashback_value/value*100)
+        percent = round(cashback_value / value * 100)
         return percent
 
-    #I would really rather bring a separate object (ex: status = {
+    # I would really rather bring a separate object (ex: status = {
     # "id": 1, "name": "In Validation", "description": "In validation status"
     # }) than making status name as purchase status , but as the challenge
-    # indicates that the status should be "In Validation" I understand that 
+    # indicates that the status should be "In Validation" I understand that
     # I should make the object flat.
-    #override from_orm to fill correctly the status and cpf
+    # override from_orm to fill correctly the status and cpf
     @classmethod
     def from_orm(cls, obj: Any):
         # "obj" is the orm model instance

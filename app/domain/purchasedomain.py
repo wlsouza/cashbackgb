@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import crud
+from app import crud, schemas
 
 
 class PurchaseDomain:
@@ -17,7 +17,8 @@ class PurchaseDomain:
         Method that calculates cashback given the purchase value.
         Rule:
             - For purchases worth up to 1000 BRL the cashback will be 10%.
-            - For purchases with a value between 1000 and 1500 BRL the cashback will be 15%.
+            - For purchases with a value between 1000 and 1500 BRL the
+            cashback will be 15%.
             - For purchases over 1500 BRL the cashback will be 20%.
 
         Args:
@@ -52,11 +53,11 @@ class PurchaseDomain:
         user = await crud.user.get_by_id(db=db, id=purchase_user_id)
         if user.cpf == "15350946056":
             status = await crud.purchase_status.get_by_name(
-                db=db, name="Approved"
+                db=db, name=schemas.statusEnum.APPROVED
             )
         else:
             status = await crud.purchase_status.get_by_name(
-                db=db, name="In validation"
+                db=db, name=schemas.statusEnum.IN_VALIDATION
             )
         return status.id
 

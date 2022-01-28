@@ -4,7 +4,7 @@ from unittest import mock
 
 import pytest
 
-from app import crud, domain
+from app import crud, domain, schemas
 
 
 def test_calculate_cashback_with_value_lower_than_1000_must_return_10_percent():
@@ -48,7 +48,7 @@ async def test_get_default_purchase_status_id_when_cpf_is_15350946056_must_retur
     )
     # asserting if the method was called with "Approved"
     mocked_purchase_status_get_by_name.assert_awaited_with(
-        db=arg_mock, name="Approved"
+        db=arg_mock, name=schemas.statusEnum.APPROVED
     )
 
 
@@ -66,5 +66,5 @@ async def test_get_default_purchase_status_id_when_cpf_is_not_15350946056_must_r
     )
     # asserting if the method was called with "In validation"
     mocked_purchase_status_get_by_name.assert_awaited_with(
-        db=arg_mock, name="In validation"
+        db=arg_mock, name=schemas.statusEnum.IN_VALIDATION
     )

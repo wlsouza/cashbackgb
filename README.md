@@ -27,18 +27,18 @@
 
 
 <h4 align="center"> 
-	 Status: Under Development
+	 Status: Finished
 </h4>
 
 <p align="center">
  <a href="#-about">About</a> •
- <a href="#-Features">Features</a> •
+ <a href="#%EF%B8%8F-features">Features</a> •
  <a href="#-demo">Demo</a> • 
  <a href="#-running-the-project">Running the project</a> • 
  <a href="#-tech-stack">Tech Stack</a> •
  <a href="#-how-to-contribute">How to contribute</a> •
- <a href="#-author">Author</a> • 
- <a href="#-user-content-license">License</a>
+ <a href="%EF%B8%8F-autor">Author</a> • 
+ <a href="#-license">License</a>
 
 </p>
 

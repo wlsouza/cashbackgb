@@ -3,7 +3,7 @@ from fastapi import status
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import crud, models
+from app import crud, models, schemas
 from app.core.config import settings
 from app.tests.utils.auth import (
     get_expired_user_token_headers,
@@ -127,5 +127,21 @@ async def test_when_deleting_purchase_by_id_if_purchase_does_not_exist_must_retu
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
+@pytest.mark.asyncio
+async def test_when_deleting_purchase_by_id_if_purchase_status_is_not_in_validation_must_return_403(
+    async_client: AsyncClient,
+    db: AsyncSession,
+    random_purchase: models.Purchase,
+) -> None:
 
+    await crud.purchase.update(
+        db=db,
+        db_purchase=random_purchase,
+        purchase_in={"status": schemas.statusEnum.APPROVED},
+    )
+    headers = get_user_token_headers(random_purchase.user_)
+    response = await async_client.delete(
+        f"{settings.API_V1_STR}/purchases/{random_purchase.id}", headers=headers
+    )
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 # endregions

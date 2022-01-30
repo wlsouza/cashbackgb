@@ -135,5 +135,10 @@ async def delete_purchase_by_id(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="The user doesn't have enough privileges",
         )
+    if purchase.status_.name != schemas.statusEnum.IN_VALIDATION:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only purchases in validation can be excluded.",
+        )
     deleted_user = await crud.purchase.delete_by_id(db=db, id=purchase_id)
     return deleted_user
